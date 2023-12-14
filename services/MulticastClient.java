@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class MulticastClient implements Runnable {
 
     private static final String MULTICAST_ADDRESS = "230.0.0.0";
-    private static final int PORT = 4446;
+    private int port;
     private static final int TIMEOUT = 5000; // Timeout in milliseconds for waiting for replies
     private static final String LOG_FILE_PATH = "pond_log.txt";
 
@@ -16,15 +16,25 @@ public class MulticastClient implements Runnable {
     private long clock = 0;
 
     public static void main(String[] args) {
-        Thread t = new Thread(new MulticastClient());
+        int port = 4446; // Default port
+        long initialClock = 0; // Default initial clock value
+        if (args.length >= 1) {
+            port = Integer.parseInt(args[0]);
+        }
+        if (args.length >= 2) {
+            initialClock = Long.parseLong(args[1]);
+        }
+        Thread t = new Thread(new MulticastClient(port, initialClock));
         t.start();
     }
 
-    public MulticastClient() {
+    public MulticastClient(int port, long initialClock) {
+        this.port = port;
+        this.clock = initialClock;
         try {
-            socket = new MulticastSocket(PORT);
+            socket = new MulticastSocket(port);
             group = InetAddress.getByName(MULTICAST_ADDRESS);
-            socket.joinGroup(new InetSocketAddress(group, PORT), NetworkInterface.getByInetAddress(InetAddress.getLocalHost()));
+            socket.joinGroup(new InetSocketAddress(group, port), NetworkInterface.getByInetAddress(InetAddress.getLocalHost()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -33,7 +43,7 @@ public class MulticastClient implements Runnable {
     private void sendMulticastMessage(String message) throws IOException {
         DatagramSocket senderSocket = new DatagramSocket();
         byte[] msg = message.getBytes();
-        DatagramPacket packet = new DatagramPacket(msg, msg.length, group, PORT);
+        DatagramPacket packet = new DatagramPacket(msg, msg.length, group, port);
         senderSocket.send(packet);
         senderSocket.close();
     }
@@ -114,18 +124,17 @@ public class MulticastClient implements Runnable {
             recoverStateFromFile();
 
             while (true) {
-                System.out.println("Enter command (HELLO/EXIT): ");
+                System.out.println("Enter (EXIT) to exit or message to send: ");
                 String command = scanner.nextLine().toUpperCase();
-
-                if (command.equals("HELLO")) {
-                    sendMulticastMessage("HELLO");
-                    handleHelloMessage();
-                } else if (command.equals("EXIT")) {
+                if (command.equals("EXIT")) {
                     handleShutdownRequest();
                     saveStateToFile();
-                    socket.leaveGroup(new InetSocketAddress(group, PORT), NetworkInterface.getByInetAddress(InetAddress.getLocalHost()));
+                    socket.leaveGroup(new InetSocketAddress(group, port), NetworkInterface.getByInetAddress(InetAddress.getLocalHost()));
                     socket.close();
                     break;
+                } else {
+                    sendMulticastMessage(command);
+                    handleHelloMessage();
                 }
             }
         } catch (IOException | InterruptedException e) {
