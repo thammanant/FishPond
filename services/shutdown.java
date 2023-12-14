@@ -1,4 +1,5 @@
 package services;
+
 import java.util.Scanner;
 public class shutdown {
     private int voteCount = 0;
@@ -32,4 +33,5 @@ public class shutdown {
         }
         input.close();
     }
+
 
