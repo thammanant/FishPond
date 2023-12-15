@@ -3,6 +3,19 @@ import java.util.Scanner;
 import services.startup;
 import java.util.Random;
 public class fish {
+    public int fishid;
+    public int fishType;
+    
+    public static fish createFish(int fishType){
+        fish newFish = new fish();
+        Random random = new Random();
+        int randomNum = random.nextInt(10);
+        //conditional for checking if fishid is exist
+        newFish.fishid = randomNum;
+        newFish.fishType = fishType;
+        return newFish;
+    }
+
     public void bubbleFish(){
         
         System.out.println("               O  o");
@@ -74,7 +87,7 @@ public class fish {
         System.out.println("                           '     '");
     }
 
-    public void drawFish(){
+    public void addFish(){
         System.out.print("Please select fish type: \n");
         System.out.println("Type 1)\n");
         bubbleFish();
@@ -90,8 +103,7 @@ public class fish {
         System.out.print("Enter fish type: ");
         String userChoice = input.nextLine();
 
-        Random random = new Random();
-        int randomNum = random.nextInt(10);
+       
 
         switch(userChoice){
             case "1":
@@ -122,6 +134,7 @@ public class fish {
                 break;
         }
         input.close();
+        fish newFish = createFish(Integer.parseInt(userChoice));
         
         startup mainmenu = new startup(0);
         mainmenu.start();

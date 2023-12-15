@@ -6,7 +6,7 @@ public class main {
         // shutdown terminate = new shutdown();
         // terminate.loop();
         fish drawfish = new fish();
-        drawfish.drawFish();
+        drawfish.addFish();
         
        
     }
