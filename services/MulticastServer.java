@@ -14,7 +14,7 @@ public class MulticastServer {
         String clock = "12";
 
         String receivedMessage = runServer(portNumber, clock);
-        System.out.println(STR."Received message from server: \{receivedMessage}");
+        System.out.println("Server: Received message: " + receivedMessage);
     }
 
     private static String runServer(int portNumber, String clock) {
@@ -33,7 +33,7 @@ public class MulticastServer {
                 socket.receive(packet);
 
                 String received = new String(packet.getData(), 0, packet.getLength());
-                System.out.println(STR."Server received: \{received}");
+                System.out.println("Server: Received message: " + received);
             }
         } catch (IOException e) {
             e.printStackTrace();

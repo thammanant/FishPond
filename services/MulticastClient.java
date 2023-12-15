@@ -8,7 +8,6 @@ public class MulticastClient implements Runnable {
     private static final String MULTICAST_ADDRESS = "230.0.0.0";
     private int port;
     private static final int TIMEOUT = 5000; // Timeout in milliseconds for waiting for replies
-    private static final String LOG_FILE_PATH = "pond_log.txt";
 
     private MulticastSocket socket;
     private InetAddress group;
@@ -16,7 +15,7 @@ public class MulticastClient implements Runnable {
     private long clock = 0;
 
     public static void main(String[] args) {
-        int port = 4446; // Default port
+        int port = 12345; // Default port
         long initialClock = 0; // Default initial clock value
         if (args.length >= 1) {
             port = Integer.parseInt(args[0]);
@@ -90,45 +89,17 @@ public class MulticastClient implements Runnable {
         }
     }
 
-    private void saveStateToFile() {
-        // Save pond state to a log file for persistent recovery
-        try (PrintWriter writer = new PrintWriter(new FileWriter(LOG_FILE_PATH))) {
-            writer.println("Clock: " + clock);
-            // Save other pond state information as needed
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void recoverStateFromFile() {
-        // Recover pond state from the log file for persistent recovery
-        try (BufferedReader reader = new BufferedReader(new FileReader(LOG_FILE_PATH))) {
-            String line = reader.readLine();
-            while (line != null) {
-                // Parse and apply saved state information as needed
-                if (line.startsWith("Clock: ")) {
-                    clock = Long.parseLong(line.substring("Clock: ".length()));
-                }
-                // Add more conditions for other saved state information
-                line = reader.readLine();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public void run() {
         try {
             Scanner scanner = new Scanner(System.in);
-            recoverStateFromFile();
 
             while (true) {
                 System.out.println("Enter (EXIT) to exit or message to send: ");
                 String command = scanner.nextLine().toUpperCase();
                 if (command.equals("EXIT")) {
                     handleShutdownRequest();
-                    saveStateToFile();
                     socket.leaveGroup(new InetSocketAddress(group, port), NetworkInterface.getByInetAddress(InetAddress.getLocalHost()));
                     socket.close();
                     break;
