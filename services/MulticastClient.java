@@ -6,18 +6,13 @@ import java.util.Scanner;
 public class MulticastClient implements Runnable {
 
     private static final String MULTICAST_ADDRESS = "230.0.0.0";
-    private int port;
-    private static final int TIMEOUT = 5000; // Timeout in milliseconds for waiting for replies
+    private final int port;
     private MulticastSocket socket;
     private InetAddress group;
-    private boolean isCoordinator = false;
 
     // for testing
     public static void main(String[] args) {
         int port = 12345; // Default port
-        if (args.length >= 1) {
-            port = Integer.parseInt(args[0]);
-        }
         Thread t = new Thread(new MulticastClient(port));
         t.start();
     }
