@@ -53,7 +53,6 @@ public class MulticastClient implements Runnable {
             Scanner scanner = new Scanner(System.in);
 
             while (true) {
-                System.out.println("Enter (Q) to exit or message to send: ");
                 String command = scanner.nextLine().toUpperCase();
                 if (command.equals("Q")) {
                     handleShutdown();
