@@ -26,13 +26,13 @@ public class MulticastServer {
         }
     }
 
-    private static void clearReceivedMessages() {
+    public static void clearReceivedMessages() {
         receivedMessages.setLength(0); // Clear the string builder
     }
 
     private static final StringBuilder receivedMessages = new StringBuilder();
 
-    private static void runServer(int portNumber) {
+    public static void runServer(int portNumber) {
         try {
             InetAddress group = InetAddress.getByName(MULTICAST_ADDRESS);
             MulticastSocket socket = new MulticastSocket(portNumber);

@@ -5,7 +5,7 @@ import java.lang.InterruptedException;
 
 public class startup {
     private final int pondID;
-
+    private final int portNumber = 12345;
 
     public startup(int pondID) {
         this.pondID = pondID;
@@ -14,9 +14,16 @@ public class startup {
     public void start() {
         System.out.println("Pond ID: " + pondID);
         System.out.println("Starting server" );
-        MulticastServer.runServer(12345);
-        while(true) {
-            System.out.println("Pond command:");
+        Thread serverThread = new Thread(() -> MulticastServer.runServer(portNumber));
+        serverThread.start();
+
+        while (true) {
+            String messages = MulticastServer.getReceivedMessages();
+            if (!messages.isEmpty()) {
+                System.out.println("Received messages:\n" + messages);
+                // Optionally, you can clear the received messages
+                MulticastServer.clearReceivedMessages();
+            }
         }
     }
     public void receiveRequest() {
