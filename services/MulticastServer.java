@@ -11,13 +11,12 @@ public class MulticastServer {
     // for testing
     public static void main(String[] args) {
         int portNumber = 12345;
-        String clock = "12";
 
-        String receivedMessage = runServer(portNumber, clock);
+        String receivedMessage = runServer(portNumber);
         System.out.println("Server: Received message: " + receivedMessage);
     }
 
-    private static String runServer(int portNumber, String clock) {
+    private static String runServer(int portNumber) {
         StringBuilder receivedMessage = new StringBuilder();
 
         try {
