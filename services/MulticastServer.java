@@ -11,15 +11,28 @@ public class MulticastServer {
     // for testing
     public static void main(String[] args) {
         int portNumber = 12345;
-        String clock = "12";
 
-        String receivedMessage = runServer(portNumber, clock);
-        System.out.println("Server: Received message: " + receivedMessage);
+        // Start the server in a separate thread
+        Thread serverThread = new Thread(() -> runServer(portNumber));
+        serverThread.start();
+
+        while (true) {
+            String messages = getReceivedMessages();
+            if (!messages.isEmpty()) {
+                System.out.println("Received messages:\n" + messages);
+                // Optionally, you can clear the received messages
+                clearReceivedMessages();
+            }
+        }
     }
 
-    private static String runServer(int portNumber, String clock) {
-        StringBuilder receivedMessage = new StringBuilder();
+    public static void clearReceivedMessages() {
+        receivedMessages.setLength(0); // Clear the string builder
+    }
 
+    private static final StringBuilder receivedMessages = new StringBuilder();
+
+    public static void runServer(int portNumber) {
         try {
             InetAddress group = InetAddress.getByName(MULTICAST_ADDRESS);
             MulticastSocket socket = new MulticastSocket(portNumber);
@@ -33,12 +46,15 @@ public class MulticastServer {
                 socket.receive(packet);
 
                 String received = new String(packet.getData(), 0, packet.getLength());
-                System.out.println("Server: Received message: " + received);
+                receivedMessages.append(received).append("\n"); // Append received message to the variable
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return receivedMessage.toString();
     }
+
+    public static String getReceivedMessages() {
+        return receivedMessages.toString(); // Return accumulated messages
+    }
+
 }
