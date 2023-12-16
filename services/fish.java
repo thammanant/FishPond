@@ -1,8 +1,8 @@
 package services;
 import java.io.IOException;
 import java.util.Scanner;
-import services.startup;
 import java.util.Random;
+
 public class fish {
     public int fishid;
     public int fishType;
@@ -88,6 +88,7 @@ public class fish {
         System.out.println("                           '     '");
     }
 
+
     public void moveFish(int fishID, int pondID, int port){
         // call multicast client
         MulticastClient client = new MulticastClient(port);
@@ -126,6 +127,7 @@ public class fish {
             e.printStackTrace();
         }
     }
+
 
     public static void addFish(){
         System.out.print("Please select fish type: \n");
@@ -175,6 +177,7 @@ public class fish {
         }
 
         fish newFish = createFish(Integer.parseInt(userChoice));
+
 
         // startup mainmenu = new startup(0);
         // mainmenu.start();
