@@ -1,6 +1,9 @@
 package services;
 import java.io.IOException;
 import java.util.Scanner;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import services.startup;
 import java.util.Random;
 
@@ -18,7 +21,7 @@ public class fish {
         return newFish;
     }
 
-    public void bubbleFish(){
+    public static void bubbleFish(){
         
         System.out.println("               O  o");
         System.out.println("          _\\_   o");
@@ -28,7 +31,7 @@ public class fish {
         System.out.println("\n");
     }
 
-    public void shark(){
+    public static void shark(){
         
         System.out.println("      .            ");
         System.out.println("\\_____\\)\\_____");
@@ -38,7 +41,7 @@ public class fish {
         System.out.println("\n");
     }
 
-    public void triangleFish(){
+    public static void triangleFish(){
         
         System.out.println("     |\\    o");
         System.out.println("    |  \\    o");
@@ -50,7 +53,7 @@ public class fish {
         System.out.println("\n");
     }
 
-    public void seahorse(){
+    public static void seahorse(){
         System.out.println("     \\/)/)");
         System.out.println("    _'  oo(_.-.");
         System.out.println("  /'.     .---'");
@@ -63,7 +66,7 @@ public class fish {
         System.out.println("\n");
     }
 
-    public void pufflefish(){
+    public static void pufflefish(){
         
         System.out.println("     .");
         System.out.println("                          A       ;");
@@ -180,8 +183,34 @@ public class fish {
 //        mainmenu.start();
     }
 
-    public void addFishToDB(){
-
+    public static void drawFishFromDB(){
+        JSONArray fishList = database.readFishFromDB();
+        for (Object o : fishList) {
+            JSONObject fish = (JSONObject) o;
+            int fishType = Integer.parseInt((String) fish.get("fishType"));
+            int fishid = Integer.parseInt((String) fish.get("fishid"));
+            System.out.println("id: " + fishid);
+            switch(fishType){
+                case 1:
+                    bubbleFish();
+                    break;
+                case 2:
+                    shark();
+                    break;
+                case 3:
+                    triangleFish();
+                    break;
+                case 4:
+                    seahorse();
+                    break;
+                case 5:
+                    pufflefish();
+                    break;
+                default:
+                    System.out.println("Invalid input, please type number between 1-5");
+                    break;
+            }
+        }
     }
 
 }
