@@ -2,13 +2,15 @@ package services;
 
 import java.util.Scanner;
 public class shutdown {
-    private int voteCount = 0;
-    private final int maxCount = 3; 
-    public void loop(){
+    private static int voteCount = 0;
+    private static final int maxCount = 3; 
+    public static void shutdownMenu(){
         Scanner input = new Scanner(System.in);
         while(true){
-            System.out.println("Enter text(Type Q to quit): ");
+            System.out.println("press Q to quit");
             System.out.println("press V to vote for shutdown");
+            System.out.println("press B to go back to main menu");
+            System.out.print("Please enter your choice: ");
             String text = input.nextLine();
             
             
@@ -27,11 +29,15 @@ public class shutdown {
                 }
                 
             }
+            if (text.equalsIgnoreCase("B")) {
+                System.out.println("Going back to main menu...");
+                break;
+            }
             
 
             System.out.println("You typed: " + text);
         }
-        input.close();
+        
     }
 }
 

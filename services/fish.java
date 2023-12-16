@@ -1,7 +1,7 @@
 package services;
 import java.util.Scanner;
-import services.startup;
 import java.util.Random;
+
 public class fish {
     public int fishid;
     public int fishType;
@@ -16,7 +16,7 @@ public class fish {
         return newFish;
     }
 
-    public void bubbleFish(){
+    public static void bubbleFish(){
         
         System.out.println("               O  o");
         System.out.println("          _\\_   o");
@@ -26,7 +26,7 @@ public class fish {
         System.out.println("\n");
     }
 
-    public void shark(){
+    public static void shark(){
         
         System.out.println("      .            ");
         System.out.println("\\_____\\)\\_____");
@@ -36,7 +36,7 @@ public class fish {
         System.out.println("\n");
     }
 
-    public void triangleFish(){
+    public static void triangleFish(){
         
         System.out.println("     |\\    o");
         System.out.println("    |  \\    o");
@@ -48,7 +48,7 @@ public class fish {
         System.out.println("\n");
     }
 
-    public void seahorse(){
+    public static void seahorse(){
         System.out.println("     \\/)/)");
         System.out.println("    _'  oo(_.-.");
         System.out.println("  /'.     .---'");
@@ -61,7 +61,7 @@ public class fish {
         System.out.println("\n");
     }
 
-    public void pufflefish(){
+    public static void pufflefish(){
         
         System.out.println("     .");
         System.out.println("                          A       ;");
@@ -87,7 +87,7 @@ public class fish {
         System.out.println("                           '     '");
     }
 
-    public void addFish(){
+    public static void addFish(){
         System.out.print("Please select fish type: \n");
         System.out.println("Type 1)\n");
         bubbleFish();
@@ -133,11 +133,11 @@ public class fish {
                 System.out.println("Invalid input, please type number between 1-5");
                 break;
         }
-        input.close();
+        
         fish newFish = createFish(Integer.parseInt(userChoice));
         
-        startup mainmenu = new startup(0);
-        mainmenu.start();
+        // startup mainmenu = new startup(0);
+        // mainmenu.start();
 
         
         
