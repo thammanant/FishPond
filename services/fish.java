@@ -5,6 +5,7 @@ import java.util.Scanner;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import services.startup;
+
 import java.util.Random;
 
 public class fish {
@@ -92,6 +93,7 @@ public class fish {
         System.out.println("                           '     '");
     }
 
+
     public void moveFish(int fishID, int pondID, int port){
         // call multicast client
         MulticastClient client = new MulticastClient(port);
@@ -102,8 +104,10 @@ public class fish {
                 String response = MulticastServer.getReceivedMessages();
                 if (response.equals("ack," + fishID + "," + pondID + "acpt")){ // if accepted
                     //TODO
+
                     // if fish already in DB, do nothing
                     // else add fish to pond to DB
+
                     // remove fish from DB
                     break;
                 }
@@ -129,9 +133,21 @@ public class fish {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
-    public void addFish(){
+    public void addFishFromOtherPond(){
+
+        if (status.equals("acpt")){
+            //TODO
+            // if fish already in DB, do nothing
+            // else add fish to pond to DB
+        }
+    }
+
+
+    public static void addFish(){
+
         System.out.print("Please select fish type: \n");
         System.out.println("Type 1)\n");
         bubbleFish();
@@ -147,7 +163,7 @@ public class fish {
         System.out.print("Enter fish type: ");
         String userChoice = input.nextLine();
 
-       
+
 
         switch(userChoice){
             case "1":
@@ -177,6 +193,7 @@ public class fish {
                 System.out.println("Invalid input, please type number between 1-5");
                 break;
         }
+
         fish newFish = createFish(Integer.parseInt(userChoice));
         database.addFishToDB(newFish.fishid, newFish.fishType);
 //        startup mainmenu = new startup(0);
@@ -211,6 +228,16 @@ public class fish {
                     break;
             }
         }
+
+
+        fish newFish = createFish(Integer.parseInt(userChoice));
+
+
+        // startup mainmenu = new startup(0);
+        // mainmenu.start();
+
+
+
     }
 
 }
