@@ -2,6 +2,7 @@ package services;
 import java.util.Scanner;
 import services.startup;
 import java.util.Random;
+
 public class fish {
     public int fishid;
     public int fishType;
@@ -135,14 +136,14 @@ public class fish {
         }
         input.close();
         fish newFish = createFish(Integer.parseInt(userChoice));
-        
+        database.addFishToDB(newFish.fishid, newFish.fishType);
         startup mainmenu = new startup(0);
         mainmenu.start();
-
-        
-        
-        
-        
     }
+
+    public void addFishToDB(){
+
+    }
+
 }
 
