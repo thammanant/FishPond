@@ -11,6 +11,8 @@ import java.util.Random;
 public class fish {
     public int fishid;
     public int fishType;
+    public static Scanner input = new Scanner(System.in);
+    public static String userChoice = input.nextLine();
     
     public static fish createFish(int fishType){
         fish newFish = new fish();
@@ -136,13 +138,11 @@ public class fish {
 
     }
 
-    public void addFishFromOtherPond(){
-
-        if (status.equals("acpt")){
-            //TODO
-            // if fish already in DB, do nothing
-            // else add fish to pond to DB
-        }
+    public void addFishFromOtherPond(int fishid,int fishType){
+        //TODO
+        // add fish to DB
+        // draw fish
+        
     }
 
 
@@ -159,9 +159,9 @@ public class fish {
         seahorse();
         System.out.println("Type 5)\n");
         pufflefish();
-        Scanner input = new Scanner(System.in);
+        
         System.out.print("Enter fish type: ");
-        String userChoice = input.nextLine();
+        
 
 
 

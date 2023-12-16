@@ -9,7 +9,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class database {
-    private static final String path = "/Users/chananonkanunghet/Desktop/Work/Distributed Computing/FishPond/fish.json";
+    private static final String path = "C:\\Users\\brigh\\OneDrive\\Desktop\\year3 sem2\\DC\\FishPond";
 
 
     public static void addFishToDB(int fishid, int fishType) {
