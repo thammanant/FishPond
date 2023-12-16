@@ -43,4 +43,23 @@ public class database {
             return new JSONArray();
         }
     }
+
+    public static void removeFishFromDB(int fishid) {
+        JSONArray fishList = readFishFromDB();
+        for (int i = 0; i < fishList.size(); i++) {
+            JSONObject fish = (JSONObject) fishList.get(i);
+            if (fish.get("fishid").equals(String.valueOf(fishid))) {
+                fishList.remove(i);
+                break;
+            }
+        }
+
+        try {
+            FileWriter file = new FileWriter(path);
+            file.write(fishList.toJSONString());
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
