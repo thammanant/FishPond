@@ -7,6 +7,7 @@ import java.net.MulticastSocket;
 
 public class MulticastServer {
     private static final String MULTICAST_ADDRESS = "230.0.0.0";
+    private static final StringBuilder receivedMessages = new StringBuilder();
 
     // for testing
     public static void main(String[] args) {
@@ -30,7 +31,6 @@ public class MulticastServer {
         receivedMessages.setLength(0); // Clear the string builder
     }
 
-    private static final StringBuilder receivedMessages = new StringBuilder();
 
     public static void runServer(int portNumber) {
         try {
