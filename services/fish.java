@@ -1,5 +1,6 @@
 package services;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Scanner;
 
 import org.json.simple.JSONArray;
@@ -158,7 +159,10 @@ public class fish {
         String userChoice = input.nextLine();
 
 
-
+        if (Objects.equals(userChoice, "1") || Objects.equals(userChoice, "2") || Objects.equals(userChoice, "3") || Objects.equals(userChoice, "4") || Objects.equals(userChoice, "5")){
+            fish newFish = createFish(Integer.parseInt(userChoice));
+            database.addFishToDB(newFish.fishid, newFish.fishType);
+        }
         switch(userChoice){
             case "1":
                 System.out.println("You have selected bubble fish");
@@ -187,9 +191,6 @@ public class fish {
                 System.out.println("Invalid input, please type number between 1-5");
                 break;
         }
-
-        fish newFish = createFish(Integer.parseInt(userChoice));
-        database.addFishToDB(newFish.fishid, newFish.fishType);
 //        startup mainmenu = new startup(0);
 //        mainmenu.start();
     }
