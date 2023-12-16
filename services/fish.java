@@ -98,8 +98,6 @@ public class fish {
                 String response = MulticastServer.getReceivedMessages();
                 if (response.equals("ack," + fishID + "," + pondID + "acpt")){ // if accepted
                     //TODO
-                    // if fish already in DB, do nothing
-                    // else add fish to pond to DB
                     // remove fish from DB
                     break;
                 }
@@ -124,6 +122,12 @@ public class fish {
             client.sendMulticastMessage("ack," + fishID + "," + pondID + "," + status);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        if (status.equals("acpt")){
+            //TODO
+            // if fish already in DB, do nothing
+            // else add fish to pond to DB
         }
     }
 
