@@ -5,8 +5,5 @@ public class main {
     public static void main(String[] args) {
         startup start = new startup(0);
         start.start();
-        
-        
-       
     }
 }
