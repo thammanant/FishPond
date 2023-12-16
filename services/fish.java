@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import services.startup;
 
 import java.util.Random;
 
@@ -138,11 +137,8 @@ public class fish {
 
     }
 
-    public void addFishFromOtherPond(int fishid,int fishType){
-        //TODO
-        // add fish to DB
-        // draw fish
-        
+    public void addFishFromOtherPond(){
+
     }
 
 
@@ -230,7 +226,7 @@ public class fish {
         }
 
 
-        fish newFish = createFish(Integer.parseInt(userChoice));
+//        fish newFish = createFish(Integer.parseInt(userChoice));
 
 
         // startup mainmenu = new startup(0);

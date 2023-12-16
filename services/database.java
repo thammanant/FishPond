@@ -9,8 +9,12 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class database {
-    private static final String path = "C:\\Users\\brigh\\OneDrive\\Desktop\\year3 sem2\\DC\\FishPond";
+    private static final String path = "fish.json";
 
+
+    public static void main(String[] argv){
+        addFishToDB(1,2);
+    }
 
     public static void addFishToDB(int fishid, int fishType) {
         JSONArray fishList = readFishFromDB();
