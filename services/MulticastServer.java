@@ -31,6 +31,7 @@ public class MulticastServer {
         receivedMessages.setLength(0); // Clear the string builder
     }
 
+
     public static void runServer(int portNumber) {
         try {
             InetAddress group = InetAddress.getByName(MULTICAST_ADDRESS);

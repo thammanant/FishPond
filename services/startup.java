@@ -2,27 +2,34 @@ package services;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.lang.InterruptedException;
+
 public class startup {
-    private final int port;
-    private int clock;
-    private final int timeout = 5000;
+    private final int pondID;
+    private final int portNumber = 12345;
 
-    public startup(int port) {
-        this.port = port;
-        this.clock = 0;
-
+    public startup(int pondID) {
+        this.pondID = pondID;
     }
 
     public void start() {
-        System.out.println("Starting server on port " + port);
+        System.out.println("Pond ID: " + pondID);
+        System.out.println("Starting server" );
+        Thread serverThread = new Thread(() -> MulticastServer.runServer(portNumber));
+        serverThread.start();
+
+        while (true) {
+            String messages = MulticastServer.getReceivedMessages();
+            if (!messages.isEmpty()) {
+                System.out.println("Received messages:\n" + messages);
+                // Optionally, you can clear the received messages
+                MulticastServer.clearReceivedMessages();
+            }
+        }
     }
-    public void receiveMessage() {
+    public void receiveRequest() {
         System.out.println("Receiving message");
     }
-
-    public void listenForReplies(){
-        System.out.println("Listening for replies");
-    }
+    
 
     public boolean performTask() {
         //TODO: Implement task
@@ -40,6 +47,7 @@ public class startup {
     public void timeoutCounter(){
         System.out.println("Timeout counter");
         Timer timer = new Timer();
+        int timeout = 5000;
         timer.schedule(new TimerTask(){
             public void run(){
                 System.out.println("Timeout");
