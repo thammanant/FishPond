@@ -1,4 +1,5 @@
 package services;
+import java.io.IOException;
 import java.util.Scanner;
 import services.startup;
 import java.util.Random;
@@ -87,6 +88,45 @@ public class fish {
         System.out.println("                           '     '");
     }
 
+    public void moveFish(int fishID, int pondID, int port){
+        // call multicast client
+        MulticastClient client = new MulticastClient(port);
+        try {
+            while (true) {
+                client.sendMulticastMessage("move," + fishID + "," + pondID);
+                // get response from server
+                String response = MulticastServer.getReceivedMessages();
+                if (response.equals("ack," + fishID + "," + pondID + "acpt")){ // if accepted
+                    //TODO
+                    // if fish already in DB, do nothing
+                    // else add fish to pond to DB
+                    // remove fish from DB
+                    break;
+                }
+                else if (response.equals("ack," + fishID + "," + pondID + "rej")){ // if rejected
+                    System.out.println("Fish rejected");
+                    break;
+                }
+                Thread.sleep(1000);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void ackFish(int fishID, int pondID, int port, String status){
+        // status must only be acpt for accept or rej for reject
+        // call multicast client
+        MulticastClient client = new MulticastClient(port);
+        try {
+            client.sendMulticastMessage("ack," + fishID + "," + pondID + "," + status);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void addFish(){
         System.out.print("Please select fish type: \n");
         System.out.println("Type 1)\n");
@@ -138,8 +178,6 @@ public class fish {
         
         startup mainmenu = new startup(0);
         mainmenu.start();
-
-        
         
         
         
