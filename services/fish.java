@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import services.startup;
 
 import java.util.Random;
 
@@ -138,11 +137,6 @@ public class fish {
 
     public void addFishFromOtherPond(){
 
-        if (status.equals("acpt")){
-            //TODO
-            // if fish already in DB, do nothing
-            // else add fish to pond to DB
-        }
     }
 
 
@@ -230,7 +224,7 @@ public class fish {
         }
 
 
-        fish newFish = createFish(Integer.parseInt(userChoice));
+//        fish newFish = createFish(Integer.parseInt(userChoice));
 
 
         // startup mainmenu = new startup(0);
