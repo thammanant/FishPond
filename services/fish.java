@@ -136,9 +136,16 @@ public class fish {
 
     }
 
-    public void addFishFromOtherPond(){
+//    public void addFishFromOtherPond(){
+//
+//        if (status.equals("acpt")){
+//            //TODO
+//            // if fish already in DB, do nothing
+//            // else add fish to pond to DB
+//        }
+//    }
 
-    }
+
 
 
     public static void addFish(){
@@ -228,12 +235,15 @@ public class fish {
 //        fish newFish = createFish(Integer.parseInt(userChoice));
 
 
+
         // startup mainmenu = new startup(0);
         // mainmenu.start();
 
-
-
     }
 
+    public static void removeFish(int fishid){
+        database.removeFishFromDB(fishid);
+        System.out.println("Fish id: " + fishid + "removed");
+    }
 }
 
