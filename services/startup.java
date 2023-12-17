@@ -27,8 +27,12 @@ public class startup {
         while (true) {
             String messages = MulticastServer.getReceivedMessages();
             if (!messages.isEmpty()) {
-                System.out.println("Received messages:\n" + messages);
-                // Optionally, you can clear the received messages
+                //decompose message
+                String[] request = messages.split(",");
+                //print request array
+                for (String s : request) {
+                    System.out.println(s);
+                }
                 MulticastServer.clearReceivedMessages();
             }
             try {
