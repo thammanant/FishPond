@@ -94,7 +94,7 @@ public class fish {
     }
 
 
-    public void moveFish(int fishID, int pondID, int port){
+    public static void moveFish(int fishID, int pondID, int port){
         // call multicast client
         MulticastClient client = new MulticastClient(port);
         try {
@@ -242,8 +242,14 @@ public class fish {
     }
 
     public static void removeFish(int fishid){
-        database.removeFishFromDB(fishid);
-        System.out.println("Fish id: " + fishid + "removed");
+        while(true){
+            database.removeFishFromDB(fishid);
+            System.out.println("Fish id: " + fishid + " removed");
+            break;
+        }
+        
+        
+        
     }
 }
 

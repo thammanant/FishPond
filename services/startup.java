@@ -15,6 +15,10 @@ public class startup {
 
     public void start() {
         Scanner input = new Scanner(System.in);
+        Scanner removeId = new Scanner(System.in);
+        Scanner FishIdFormove = new Scanner(System.in);
+        Scanner PondIdFormove = new Scanner(System.in);
+        Scanner PortForMove = new Scanner(System.in);
         System.out.println("Pond ID: " + pondID);
         System.out.println("Starting server" );
         Thread serverThread = new Thread(() -> MulticastServer.runServer(portNumber));
@@ -43,19 +47,28 @@ public class startup {
 
             try {
                 Integer userChoice = input.nextInt();
-
+                
                 if (userChoice == 1) {
                     fish.addFish();
                 } else if (userChoice == 2) {
-                    //implemet later
+                    System.out.println("Enter ID of fish to remove: ");
+                    Integer idForRemove = removeId.nextInt();
+                    fish.removeFish(idForRemove);
                 } else if (userChoice == 3) {
-                    //implement later
+                    fish.drawFishFromDB();
                 } else if (userChoice == 4) {
-                    //implement later
+                    System.out.println("Enter ID of fish to move: ");
+                    Integer idForMove = FishIdFormove.nextInt();
+                    System.out.println("Enter ID of pond to move to: ");
+                    Integer pondForMove = PondIdFormove.nextInt();
+                    System.out.println("Enter port number: ");
+                    Integer portForMove = PortForMove.nextInt();
+                    fish.moveFish(idForMove,pondForMove,portForMove);
                 } else if (userChoice == 5) {
                     shutdown.shutdownMenu();
                 }
             }
+            
             catch (Exception e) {
                 System.out.println("Invalid input");
                 input.nextLine();
@@ -67,7 +80,7 @@ public class startup {
         }
 
 
-        // input.close();  keep this at the end
+        
     }
     public void receiveRequest() {
         System.out.println("Receiving message");
