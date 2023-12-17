@@ -104,10 +104,6 @@ public class fish {
                 String response = MulticastServer.getReceivedMessages();
                 if (response.equals("ack," + fishID + "," + pondID + "acpt")){ // if accepted
                     //TODO
-
-                    // if fish already in DB, do nothing
-                    // else add fish to pond to DB
-
                     // remove fish from DB
                     break;
                 }
@@ -136,18 +132,6 @@ public class fish {
 
     }
 
-//    public void addFishFromOtherPond(){
-//
-//        if (status.equals("acpt")){
-//            //TODO
-//            // if fish already in DB, do nothing
-//            // else add fish to pond to DB
-//        }
-//    }
-
-
-
-
     public static void addFish(){
 
         System.out.print("Please select fish type: \n");
@@ -165,11 +149,6 @@ public class fish {
         System.out.print("Enter fish type: ");
         String userChoice = input.nextLine();
 
-
-        if (Objects.equals(userChoice, "1") || Objects.equals(userChoice, "2") || Objects.equals(userChoice, "3") || Objects.equals(userChoice, "4") || Objects.equals(userChoice, "5")){
-            fish newFish = createFish(Integer.parseInt(userChoice));
-            database.addFishToDB(newFish.fishid, newFish.fishType);
-        }
         switch(userChoice){
             case "1":
                 System.out.println("You have selected bubble fish");
@@ -196,10 +175,11 @@ public class fish {
                 break;
             default:
                 System.out.println("Invalid input, please type number between 1-5");
-                break;
+                return;
         }
-//        startup mainmenu = new startup(0);
-//        mainmenu.start();
+
+        fish newFish = createFish(Integer.parseInt(userChoice));
+        database.addFishToDB(newFish.fishid, newFish.fishType);
     }
 
     public static void drawFishFromDB(){
@@ -230,15 +210,6 @@ public class fish {
                     break;
             }
         }
-
-
-//        fish newFish = createFish(Integer.parseInt(userChoice));
-
-
-
-        // startup mainmenu = new startup(0);
-        // mainmenu.start();
-
     }
 
     public static void removeFish(int fishid){
@@ -247,9 +218,7 @@ public class fish {
             System.out.println("Fish id: " + fishid + " removed");
             break;
         }
-        
-        
-        
+
     }
 }
 

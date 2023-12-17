@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ba450519-438c-46a1-b512-62f1171406fd" name="Changes" comment="add JSON library">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fish.json" beforeDir="false" afterPath="$PROJECT_DIR$/fish.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/database.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/database.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/startup.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/startup.java" afterDir="false" />
-    </list>
+    <list default="true" id="ba450519-438c-46a1-b512-62f1171406fd" name="Changes" comment="fix invalid input bug" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -253,7 +248,15 @@
       <option name="project" value="LOCAL" />
       <updated>1702760485091</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="fix invalid input bug">
+      <option name="closed" value="true" />
+      <created>1702762366417</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1702762366417</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -291,6 +294,7 @@
     <MESSAGE value="update drawFish and addFish function" />
     <MESSAGE value="update move and ackFish function" />
     <MESSAGE value="add JSON library" />
-    <option name="LAST_COMMIT_MESSAGE" value="add JSON library" />
+    <MESSAGE value="fix invalid input bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix invalid input bug" />
   </component>
 </project>
