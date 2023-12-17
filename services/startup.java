@@ -19,6 +19,7 @@ public class startup {
         Scanner FishIdFormove = new Scanner(System.in);
         Scanner PondIdFormove = new Scanner(System.in);
         Scanner PortForMove = new Scanner(System.in);
+        Scanner ansForRequest = new Scanner(System.in);
         System.out.println("Pond ID: " + pondID);
         System.out.println("Starting server" );
         Thread serverThread = new Thread(() -> MulticastServer.runServer(portNumber));
@@ -29,10 +30,25 @@ public class startup {
             if (!messages.isEmpty()) {
                 //decompose message
                 String[] request = messages.split(",");
-                //print request array
+                System.out.println("Received request after split:\n");
                 for (String s : request) {
                     System.out.println(s);
                 }
+                //check if message is for this pond
+                if (Integer.parseInt(request[2]) == pondID && request[0].equals("move")) {
+                    System.out.println("New incoming fish");
+                    System.out.println("Would you like to accept? (Y/N)");
+                    String ans = ansForRequest.nextLine();
+                    if (ans.equalsIgnoreCase("Y")) {
+                        fish.ackFish(Integer.parseInt(request[1]), Integer.parseInt(request[2]), portNumber, "acpt");
+                    } else if (ans.equalsIgnoreCase("N")) {
+                        fish.ackFish(Integer.parseInt(request[1]), Integer.parseInt(request[2]), portNumber, "rej");
+                    }
+                }
+                else {
+                    System.out.println("Message not for this pond");
+                }
+
                 MulticastServer.clearReceivedMessages();
             }
             try {

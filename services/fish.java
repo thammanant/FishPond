@@ -128,6 +128,20 @@ public class fish {
         // call multicast client
         MulticastClient client = new MulticastClient(port);
         try {
+            //check fish within dabase
+            JSONArray fishList = database.readFishFromDB();
+            for (Object o : fishList) {
+                JSONObject fish = (JSONObject) o;
+                int fishType = Integer.parseInt((String) fish.get("fishType"));
+                int fishid = Integer.parseInt((String) fish.get("fishid"));
+                if (fishid == fishID){
+                    System.out.println("Fish already added");
+                }
+                else{
+                    addFishFromOtherPond(fishID, fishType);
+                    System.out.println("Fish added");
+                }
+            }
             client.sendMulticastMessage("ack," + fishID + "," + pondID + "," + status);
         } catch (IOException e) {
             e.printStackTrace();
