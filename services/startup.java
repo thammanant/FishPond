@@ -40,26 +40,28 @@ public class startup {
             System.out.println("4: Move fish");
             System.out.println("5: Shutdown");
             System.out.print("Please enter your choice: ");
-            Integer userChoice = input.nextInt();
 
-            if(userChoice == 1){
-                fish.addFish();
+            try {
+                Integer userChoice = input.nextInt();
+
+                if (userChoice == 1) {
+                    fish.addFish();
+                } else if (userChoice == 2) {
+                    //implemet later
+                } else if (userChoice == 3) {
+                    //implement later
+                } else if (userChoice == 4) {
+                    //implement later
+                } else if (userChoice == 5) {
+                    shutdown.shutdownMenu();
+                }
             }
-            else if(userChoice == 2){
-                //implemet later
-            }
-            else if(userChoice == 3){
-                //implement later
-            }
-            else if(userChoice == 4){
-                //implement later
-            }
-            else if(userChoice == 5){
-                shutdown.shutdownMenu();
-            }
-            else{
+            catch (Exception e) {
                 System.out.println("Invalid input");
-
+                input.nextLine();
+            }
+            finally {
+                continue;
             }
             
         }
