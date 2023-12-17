@@ -15,6 +15,7 @@ public class startup {
 
     public void start() {
         Scanner input = new Scanner(System.in);
+        Scanner removeId = new Scanner(System.in);
         System.out.println("Pond ID: " + pondID);
         System.out.println("Starting server" );
         Thread serverThread = new Thread(() -> MulticastServer.runServer(portNumber));
@@ -43,11 +44,13 @@ public class startup {
 
             try {
                 Integer userChoice = input.nextInt();
+                
 
                 if (userChoice == 1) {
                     fish.addFish();
                 } else if (userChoice == 2) {
-                    //implemet later
+                    Integer IdforRemove = removeId.nextInt();
+                    fish.removeFish(IdforRemove);
                 } else if (userChoice == 3) {
                     //implement later
                 } else if (userChoice == 4) {
