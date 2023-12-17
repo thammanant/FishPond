@@ -1,5 +1,6 @@
 package services;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Scanner;
 
 import org.json.simple.JSONArray;
@@ -137,9 +138,16 @@ public class fish {
 
     }
 
-    public void addFishFromOtherPond(){
+//    public void addFishFromOtherPond(){
+//
+//        if (status.equals("acpt")){
+//            //TODO
+//            // if fish already in DB, do nothing
+//            // else add fish to pond to DB
+//        }
+//    }
 
-    }
+
 
 
     public static void addFish(){
@@ -160,7 +168,10 @@ public class fish {
         
 
 
-
+        if (Objects.equals(userChoice, "1") || Objects.equals(userChoice, "2") || Objects.equals(userChoice, "3") || Objects.equals(userChoice, "4") || Objects.equals(userChoice, "5")){
+            fish newFish = createFish(Integer.parseInt(userChoice));
+            database.addFishToDB(newFish.fishid, newFish.fishType);
+        }
         switch(userChoice){
             case "1":
                 System.out.println("You have selected bubble fish");
@@ -189,9 +200,6 @@ public class fish {
                 System.out.println("Invalid input, please type number between 1-5");
                 break;
         }
-
-        fish newFish = createFish(Integer.parseInt(userChoice));
-        database.addFishToDB(newFish.fishid, newFish.fishType);
 //        startup mainmenu = new startup(0);
 //        mainmenu.start();
     }
@@ -229,12 +237,15 @@ public class fish {
 //        fish newFish = createFish(Integer.parseInt(userChoice));
 
 
+
         // startup mainmenu = new startup(0);
         // mainmenu.start();
 
-
-
     }
 
+    public static void removeFish(int fishid){
+        database.removeFishFromDB(fishid);
+        System.out.println("Fish id: " + fishid + "removed");
+    }
 }
 
