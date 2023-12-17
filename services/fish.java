@@ -103,8 +103,7 @@ public class fish {
                 // get response from server
                 String response = MulticastServer.getReceivedMessages();
                 if (response.equals("ack," + fishID + "," + pondID + "acpt")){ // if accepted
-                    //TODO
-                    // remove fish from DB
+                    database.removeFishFromDB(fishID);
                     break;
                 }
                 else if (response.equals("ack," + fishID + "," + pondID + "rej")){ // if rejected
@@ -120,8 +119,12 @@ public class fish {
         }
     }
 
-    public void ackFish(int fishID, int pondID, int port, String status){
+    public static void ackFish(int fishID, int pondID, int port, String status){
         // status must only be acpt for accept or rej for reject
+        if (!Objects.equals(status, "acpt") && !Objects.equals(status, "rej")){
+            System.out.println("Invalid status");
+            return;
+        }
         // call multicast client
         MulticastClient client = new MulticastClient(port);
         try {
@@ -130,6 +133,11 @@ public class fish {
             e.printStackTrace();
         }
 
+    }
+
+    public static void addFishFromOtherPond(int fishID, int fishType){
+        fish newFish = createFish(fishType);
+        database.addFishToDB(newFish.fishid, newFish.fishType);
     }
 
     public static void addFish(){
