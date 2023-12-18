@@ -128,21 +128,26 @@ public class fish {
         // call multicast client
         MulticastClient client = new MulticastClient(port);
         try {
-            //check fish within dabase
-            JSONArray fishList = database.readFishFromDB();
-            for (Object o : fishList) {
-                JSONObject fish = (JSONObject) o;
-                int fishType = Integer.parseInt((String) fish.get("fishType"));
-                int fishid = Integer.parseInt((String) fish.get("fishid"));
-                if (fishid == fishID){
-                    System.out.println("Fish already added");
-                }
-                else{
-                    addFishFromOtherPond(fishID, fishType);
-                    System.out.println("Fish added");
+            if(status.equals("acpt")) {
+                //check fish within database
+                JSONArray fishList = database.readFishFromDB();
+                for (Object o : fishList) {
+                    JSONObject fish = (JSONObject) o;
+                    int fishType = 4;
+                    int fishid = Integer.parseInt((String) fish.get("fishid"));
+                    if (fishid == fishID) {
+                        System.out.println("Fish already added");
+                    } else {
+                        addFishFromOtherPond(fishID, fishType);
+                        System.out.println("Fish added");
+                    }
                 }
             }
+            else{
+                System.out.println("Fish rejected");
+            }
             client.sendMulticastMessage("ack," + fishID + "," + pondID + "," + status);
+            System.out.println("Ack sent");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -150,8 +155,7 @@ public class fish {
     }
 
     public static void addFishFromOtherPond(int fishID, int fishType){
-        fish newFish = createFish(fishType);
-        database.addFishToDB(newFish.fishid, newFish.fishType);
+        database.addFishToDB(fishID, fishType);
     }
 
     public static void addFish(){

@@ -24,47 +24,58 @@ public class startup {
         System.out.println("Starting server" );
         Thread serverThread = new Thread(() -> MulticastServer.runServer(portNumber));
         serverThread.start();
-
+        boolean messageReceived = false;
         while (true) {
+
             String messages = MulticastServer.getReceivedMessages();
             if (!messages.isEmpty()) {
                 //decompose message
-                String[] request = messages.split(",");
-                System.out.println("Received request after split:\n");
-                for (String s : request) {
-                    System.out.println(s);
-                }
-                //check if message is for this pond
-                if (Integer.parseInt(request[2]) == pondID && request[0].equals("move")) {
-                    System.out.println("New incoming fish");
-                    System.out.println("Would you like to accept? (Y/N)");
-                    String ans = ansForRequest.nextLine();
-                    if (ans.equalsIgnoreCase("Y")) {
-                        fish.ackFish(Integer.parseInt(request[1]), Integer.parseInt(request[2]), portNumber, "acpt");
-                    } else if (ans.equalsIgnoreCase("N")) {
-                        fish.ackFish(Integer.parseInt(request[1]), Integer.parseInt(request[2]), portNumber, "rej");
+
+                System.out.println("Received request:\n" + messages.toLowerCase());
+                //handle request
+                if(messages.toLowerCase().contains("move")) {
+
+                    String[] request = messages.toLowerCase().split("\\s*,\\s*");
+                    //replace all whitespace
+                    for (int i = 0; i < request.length; i++) {
+                        request[i] = request[i].replaceAll("\\s+", "");
+                        System.out.println(request[i]);
+                    }
+                    //check if message is for this pond
+                    if (request[1].matches("[0-9]+") && request[2].matches("[0-9]+") && Integer.parseInt(request[2]) == pondID && "move".equals(request[0])) {
+                        System.out.println("New incoming fish");
+                        System.out.println("Would you like to accept? (Y/N)");
+                        String ans = ansForRequest.nextLine();
+                        if (ans.equalsIgnoreCase("Y")) {
+                            fish.ackFish(Integer.parseInt(request[1]), Integer.parseInt(request[2]), portNumber, "acpt");
+                        } else if (ans.equalsIgnoreCase("N")) {
+                            fish.ackFish(Integer.parseInt(request[1]), Integer.parseInt(request[2]), portNumber, "rej");
+                        }
+                    } else {
+                        System.out.println("Message not for this pond");
                     }
                 }
-                else {
-                    System.out.println("Message not for this pond");
-                }
-
+                messageReceived = true;
                 MulticastServer.clearReceivedMessages();
             }
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                // Handle the exception if needed
-                e.printStackTrace();
+            if (messageReceived) {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    // Handle the exception if needed
+                    e.printStackTrace();
+                }
+                messageReceived = false;
+                continue;
             }
-    
-            System.out.println("1: Add fish");
-            System.out.println("2: Remove fish");
-            System.out.println("3: Draw pond");
-            System.out.println("4: Move fish");
-            System.out.println("5: Shutdown");
-            System.out.print("Please enter your choice: ");
-
+            if(!messageReceived){
+                System.out.println("1: Add fish");
+                System.out.println("2: Remove fish");
+                System.out.println("3: Draw pond");
+                System.out.println("4: Move fish");
+                System.out.println("5: Shutdown");
+                System.out.print("Please enter your choice: ");
+            }
             try {
                 Integer userChoice = input.nextInt();
                 
@@ -81,26 +92,21 @@ public class startup {
                     Integer idForMove = FishIdFormove.nextInt();
                     System.out.println("Enter ID of pond to move to: ");
                     Integer pondForMove = PondIdFormove.nextInt();
-                    System.out.println("Enter port number: ");
-                    Integer portForMove = PortForMove.nextInt();
-                    fish.moveFish(idForMove,pondForMove,portForMove);
+                    fish.moveFish(idForMove,pondForMove,portNumber);
                 } else if (userChoice == 5) {
                     shutdown.shutdownMenu();
                 }
             }
-            
             catch (Exception e) {
                 System.out.println("Invalid input");
                 input.nextLine();
             }
             finally {
-                continue;
+                messageReceived = false;
+
             }
             
         }
-
-
-        
     }
     public void receiveRequest() {
         System.out.println("Receiving message");
