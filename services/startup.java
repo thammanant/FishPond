@@ -20,7 +20,7 @@ public class startup {
         Scanner removeId = new Scanner(System.in);
         Scanner FishIdFormove = new Scanner(System.in);
         Scanner PondIdFormove = new Scanner(System.in);
-        Scanner PortForMove = new Scanner(System.in);
+//        Scanner PortForMove = new Scanner(System.in);
         Scanner ansForRequest = new Scanner(System.in);
         System.out.println("Pond ID: " + pondID);
         System.out.println("Starting server" );
@@ -35,7 +35,23 @@ public class startup {
 
             try {
                 int userChoice = input.nextInt();
-                processUserChoice(userChoice, removeId, FishIdFormove, PortForMove, ansForRequest);
+                if (userChoice == 1) {
+                    fish.addFish();
+                } else if (userChoice == 2) {
+                    System.out.println("Enter ID of fish to remove: ");
+                    int idForRemove = removeId.nextInt();
+                    fish.removeFish(idForRemove);
+                } else if (userChoice == 3) {
+                    fish.drawFishFromDB();
+                } else if (userChoice == 4) {
+                    System.out.println("Enter ID of fish to move: ");
+                    int idForMove = FishIdFormove.nextInt();
+                    System.out.println("Enter ID of pond to move to: ");
+                    int pondForMove = PondIdFormove.nextInt();
+                    fish.moveFish(idForMove,pondForMove,portNumber);
+                } else if (userChoice == 5) {
+                    shutdown.shutdownMenu();
+                }
             } catch (Exception e) {
                 System.out.println("Invalid input");
                 input.nextLine(); // Clear the buffer
@@ -106,30 +122,7 @@ public class startup {
         System.out.print("Please enter your choice: ");
     }
 
-    private static void processUserChoice(int userChoice, Scanner removeId, Scanner fishIdForMove,
-                                          Scanner pondIdForMove, Scanner ansForRequest) {
-        switch (userChoice) {
-            case 1:
-                fish.addFish();
-                break;
-            case 2:
-                System.out.println("Enter ID of fish to remove: ");
-                int idForRemove = removeId.nextInt();
-                fish.removeFish(idForRemove);
-                break;
-            case 3:
-                fish.drawFishFromDB();
-                break;
-            case 4:
-                fish.moveFish(fishIdForMove.nextInt(), pondIdForMove.nextInt(), ansForRequest.nextInt());
-                break;
-            case 5:
-                shutdown.shutdownMenu();
-                break;
-            default:
-                System.out.println("Invalid choice. Please try again.");
-        }
-    }
+
 
     public boolean performTask() {
         //TODO: Implement task
