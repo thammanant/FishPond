@@ -60,19 +60,13 @@ public class eventHandler {
 
                 String command = fields[0];
                 Integer fishID = Integer.parseInt(fields[1]);
-                System.out.println("fishID: " + fishID);
                 Integer pondID = Integer.parseInt(fields[2]);
                 String msg = fields[4];
-                System.out.println("command: " + line);
 
                 if ("move".equals(command)) {
-                    // Move the fish to the pond
-                    System.out.println("move");
-                    // Perform the logic for moving fish to the pond
+                    fish.moveFish(fishID,pondID, 12345);
                 } else if ("ack".equals(command) && "acpt".equals(msg)) {
-                    // Remove the fish from the pond
-                    System.out.println("ack");
-                    // Perform the logic for removing fish from the pond
+                    fish.ackFish(fishID,pondID, 12345, "acpt");
                 }
 
                 currentLine++;
