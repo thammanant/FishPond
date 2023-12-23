@@ -6,7 +6,7 @@ import org.json.simple.JSONObject;
 
 public class eventHandler {
     public static boolean writeToLog(String command, Integer fishID, Integer pondID, Integer clock) {
-        return writeToLog(command, fishID, pondID, clock, ""); // Call the main function with default msg
+        return writeToLog(command, fishID, pondID, clock, null); // Call the main function with default msg
     }
 
     public static boolean writeToLog(String command, Integer fishID, Integer pondID, Integer clock, String msg) {
@@ -29,45 +29,55 @@ public class eventHandler {
 
     public static boolean redoList() {
         try {
-            FileReader fileReader = new FileReader("log.txt");
+            String filePath = "log.txt";
+            FileReader fileReader = new FileReader(filePath);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-            // Count the number of lines in the file
-            String line;
+            // Get the number of lines in the file
             long lineCount = bufferedReader.lines().count();
+
             int currentLine = 1;
-            Integer redo = (int) lineCount - 1;
+            Integer redo = (int) lineCount;
 
             // Perform binary search on clock values
-            redo = binarySearch(bufferedReader, 0, (int) lineCount - 1, redo);
-            while ((line = bufferedReader.readLine()) != null && currentLine < redo) {
-                currentLine++;
+            redo = binarySearch(1, (int) lineCount - 1, redo);
+
+            // Reset bufferedReader to the start of the file
+            bufferedReader.close();
+            fileReader = new FileReader(filePath);
+            bufferedReader = new BufferedReader(fileReader);
+
+            // Skip lines till the redo starting point
+            for (int i = 0; i < redo; i++) {
+                bufferedReader.readLine();
             }
 
             // Redo tasks from startLine to the end of the file
-            while (line != null) {
-                // Call functions or process tasks here (replace this with your logic)
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+
                 String[] fields = line.split(", ");
 
                 String command = fields[0];
                 Integer fishID = Integer.parseInt(fields[1]);
+                System.out.println("fishID: " + fishID);
                 Integer pondID = Integer.parseInt(fields[2]);
-                String msg = fields[3];
+                String msg = fields[4];
+                System.out.println("command: " + line);
 
                 if ("move".equals(command)) {
                     // Move the fish to the pond
                     System.out.println("move");
-//                    database.addFishToDB(fishID, pondID);
-                } else if ("ack".equals(command) && ("acpt".equals(msg))) {
+                    // Perform the logic for moving fish to the pond
+                } else if ("ack".equals(command) && "acpt".equals(msg)) {
                     // Remove the fish from the pond
                     System.out.println("ack");
-//                    database.removeFishFromDB(fishID);
+                    // Perform the logic for removing fish from the pond
                 }
 
-                // Read the next line
-                line = bufferedReader.readLine();
                 currentLine++;
             }
+
             bufferedReader.close();
             return true; // Successfully processed the log file
         } catch (IOException e) {
@@ -76,58 +86,63 @@ public class eventHandler {
         }
     }
 
-    private static Integer binarySearch(BufferedReader bufferedReader, Integer start, Integer end, Integer redo) throws IOException {
-        if (start < end) {
+
+    private static Integer binarySearch(Integer start, Integer end, Integer redo) throws IOException {
+        while (start <= end) {
             Integer mid = start + (end - start) / 2;
 
             // Read the line at the mid point
-            String line = readLineAt(bufferedReader, mid);
+            String line = readLineAt(mid);
 
             // Process the log entry
-            if (!check(line)) {
-
+            if (check(line)) {
                 // Update the redo position
                 redo = mid;
 
-                // Search in the left half
-                return binarySearch(bufferedReader, start, mid - 1, redo);
+                // Search in the right half for the least line number not done
+                end = mid - 1;
             } else {
-                // If the current entry is done, search in the right half
-                return binarySearch(bufferedReader, mid + 1, end, redo);
+                // If the current entry is done, search in the left half
+                start = mid + 1;
             }
         }
         return redo;
     }
 
 
-    private static String readLineAt(BufferedReader bufferedReader, long lineNumber) throws IOException {
-        // Reset the reader to the beginning
-        bufferedReader.reset();
 
-        // Skip lines until the desired line number
-        for (long i = 0; i < lineNumber; i++) {
-            bufferedReader.readLine();
+    private static String readLineAt(long lineNumber) {
+        String filePath = "log.txt";
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            long lineCount = 0;
+
+            while ((line = bufferedReader.readLine()) != null) {
+                lineCount++;
+                if (lineCount == lineNumber) {
+                    return line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        // Read the desired line
-        return bufferedReader.readLine();
+        return null;
     }
 
     private static boolean check(String line) {
+        if (line == null) {
+            return false; // Exit or handle end of file
+        }
+
         String[] fields = line.split(", ");
 
         String command = fields[0];
         Integer fishID = Integer.parseInt(fields[1]);
         String msg = fields[3];
-
         if ("move".equals(command)) {
-            if(isFishInPond(fishID)){
-                return true;
-            }
+            return !isFishInPond(fishID);
         } else if ("ack".equals(command) && ("acpt".equals(msg))) {
-            if(!isFishInPond(fishID)){
-                return true;
-            }
+            return isFishInPond(fishID);
         }
         return false;
     }

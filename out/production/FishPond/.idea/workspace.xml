@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ba450519-438c-46a1-b512-62f1171406fd" name="Changes" comment="fix invalid input bug">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FishPond/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FishPond/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="ba450519-438c-46a1-b512-62f1171406fd" name="Changes" comment="add writeToLog function">
+      <change afterPath="$PROJECT_DIR$/ProgramMonitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/eventHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/eventHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +23,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="multicast" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -57,31 +57,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Application.MulticastClient.executor&quot;: &quot;Run&quot;,
-    &quot;Application.MulticastServer.executor&quot;: &quot;Run&quot;,
-    &quot;Application.database.executor&quot;: &quot;Run&quot;,
-    &quot;Application.main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.services.MulticastServer.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
-    &quot;ignore_missing_gitignore&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Application.MulticastClient.executor": "Run",
+    "Application.MulticastServer.executor": "Run",
+    "Application.ProgramMonitor.executor": "Run",
+    "Application.database.executor": "Run",
+    "Application.main.executor": "Run",
+    "Application.services.MulticastServer.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "handlecrash",
+    "ignore_missing_gitignore": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/pun/University/Year3/DC/FishPond",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RunManager">
+}]]></component>
+  <component name="RunManager" selected="Application.ProgramMonitor">
     <configuration name="MulticastClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="services.MulticastClient" />
       <module name="FishPond" />
@@ -95,10 +97,9 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MulticastServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="MulticastServer" />
+    <configuration name="ProgramMonitor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ProgramMonitor" />
       <module name="FishPond" />
-      <option name="UNNAMED_CLASS_CONFIGURATION" value="true" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -138,11 +139,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.ProgramMonitor" />
         <item itemvalue="Application.main" />
         <item itemvalue="Application.database" />
         <item itemvalue="Application.MulticastClient" />
         <item itemvalue="Application.services.MulticastServer" />
-        <item itemvalue="Application.MulticastServer" />
       </list>
     </recent_temporary>
   </component>
@@ -158,7 +159,10 @@
       <workItem from="1702559978130" duration="60000" />
       <workItem from="1702560164372" duration="1737000" />
       <workItem from="1702834552056" duration="959000" />
-      <workItem from="1702836949446" duration="537000" />
+      <workItem from="1702836949446" duration="10444000" />
+      <workItem from="1702923762720" duration="1150000" />
+      <workItem from="1703132012887" duration="75000" />
+      <workItem from="1703342444145" duration="4364000" />
     </task>
     <task id="LOCAL-00001" summary="Multicast for server">
       <option name="closed" value="true" />
@@ -248,7 +252,15 @@
       <option name="project" value="LOCAL" />
       <updated>1702762366417</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="add writeToLog function">
+      <option name="closed" value="true" />
+      <created>1703343988390</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1703343988390</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -265,7 +277,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="dev" />
+                        <option value="handlecrash" />
                       </list>
                     </value>
                   </entry>
@@ -287,6 +299,7 @@
     <MESSAGE value="update move and ackFish function" />
     <MESSAGE value="add JSON library" />
     <MESSAGE value="fix invalid input bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix invalid input bug" />
+    <MESSAGE value="add writeToLog function" />
+    <option name="LAST_COMMIT_MESSAGE" value="add writeToLog function" />
   </component>
 </project>
