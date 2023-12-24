@@ -102,6 +102,7 @@ public class fish {
                 client.sendMulticastMessage("move," + fishID + "," + pondID);
                 // get response from server
                 String response = MulticastServer.getReceivedMessages();
+//                eventHandler.writeToLog("move, " + fishID + ", " + pondID + ", " + clock);
                 if (response.equals("ack," + fishID + "," + pondID + "acpt")){ // if accepted
                     database.removeFishFromDB(fishID);
                     break;
@@ -129,6 +130,7 @@ public class fish {
         MulticastClient client = new MulticastClient(port);
         try {
             if(status.equals("acpt")) {
+//                eventHandler.writeToLog("ack, " + fishID + ", " + pondID + ", "  + clock + ", " + status);
                 //check fish within database
                 JSONArray fishList = database.readFishFromDB();
                 for (Object o : fishList) {
