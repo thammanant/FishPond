@@ -8,8 +8,9 @@ import org.json.simple.JSONObject;
 
 import java.util.Random;
 
-import static services.RunClock.readClockFile;
+
 import static services.eventHandler.writeToLog;
+import static services.startup.getCurrentClock;
 
 public class fish {
     public int fishid;
@@ -105,8 +106,7 @@ public class fish {
                 client.sendMulticastMessage("move," + fishID + "," + pondID);
                 // get response from server
                 String response = MulticastServer.getReceivedMessages();
-                Integer clock = readClockFile();
-                writeToLog("move", fishID, pondID, clock);
+                writeToLog("move", fishID, pondID, getCurrentClock());
                 if (response.equals("ack," + fishID + "," + pondID + "acpt")){ // if accepted
                     database.removeFishFromDB(fishID);
                     break;
@@ -134,8 +134,7 @@ public class fish {
         MulticastClient client = new MulticastClient(port);
         try {
             if(status.equals("acpt")) {
-                Integer clock = readClockFile();
-                writeToLog("ack", fishID, pondID, clock, status);
+                writeToLog("ack", fishID, pondID, getCurrentClock(), status);
                 //check fish within database
                 JSONArray fishList = database.readFishFromDB();
                 for (Object o : fishList) {
