@@ -4,6 +4,9 @@ import java.util.TimerTask;
 import java.lang.InterruptedException;
 import java.util.Scanner;
 
+import static services.RunClock.readClockFile;
+import static services.RunClock.writeClockFile;
+
 
 public class startup {
     private static Integer pondID;
@@ -26,6 +29,17 @@ public class startup {
         System.out.println("Starting server" );
         Thread serverThread = new Thread(() -> MulticastServer.runServer(portNumber));
         serverThread.start();
+        // Set up a timer to update and write the clock every second
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                // Update the clock and display the new content
+                Integer updatedContent = readClockFile() + 1;
+                // Write the updated content back to the file
+                writeClockFile(updatedContent);
+            }
+        }, 1000, 1000); // Delay 1 second, repeat every 1 second
         while (true) {
             handleReceivedMessages(ansForRequest);
 
