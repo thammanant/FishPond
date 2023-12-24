@@ -1,11 +1,13 @@
 package services;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.lang.InterruptedException;
 import java.util.Scanner;
-
-import static services.RunClock.readClockFile;
-import static services.RunClock.writeClockFile;
 
 
 public class startup {
@@ -14,6 +16,7 @@ public class startup {
 
     private static boolean messageReceived = false;
 
+    public static Integer clock = 0;
     public startup(Integer pondID) {
         this.pondID = pondID;
     }
@@ -35,9 +38,9 @@ public class startup {
             @Override
             public void run() {
                 // Update the clock and display the new content
-                Integer updatedContent = readClockFile() + 1;
+                clock = clock + 1;
                 // Write the updated content back to the file
-                writeClockFile(updatedContent);
+                writeClockFile(clock);
             }
         }, 1000, 1000); // Delay 1 second, repeat every 1 second
         while (true) {
@@ -169,7 +172,20 @@ public class startup {
             System.out.println("Timeout 1234");
         }
 
+    }
 
+    public static void writeClockFile(int content) {
+        try {
+            Path filePath = Paths.get("clock.txt");
+            // Write the updated content to the file
+            Files.write(filePath, String.valueOf(content).getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Integer getCurrentClock() {
+        return clock;
     }
 
 }
