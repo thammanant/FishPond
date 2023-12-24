@@ -38,7 +38,7 @@ public class startup {
             @Override
             public void run() {
                 // Update the clock and display the new content
-                clock += clock + 1;
+                clock = clock + 1;
                 // Write the updated content back to the file
                 writeClockFile(clock);
             }
