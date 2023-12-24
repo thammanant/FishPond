@@ -4,14 +4,17 @@ import java.util.TimerTask;
 import java.lang.InterruptedException;
 import java.util.Scanner;
 
+import static services.RunClock.readClockFile;
+import static services.RunClock.writeClockFile;
+
 
 public class startup {
-    private static int pondID;
-    private static int portNumber = 12345;
+    private static Integer pondID;
+    private static Integer portNumber = 12345;
 
     private static boolean messageReceived = false;
 
-    public startup(int pondID) {
+    public startup(Integer pondID) {
         this.pondID = pondID;
     }
 
@@ -26,6 +29,17 @@ public class startup {
         System.out.println("Starting server" );
         Thread serverThread = new Thread(() -> MulticastServer.runServer(portNumber));
         serverThread.start();
+        // Set up a timer to update and write the clock every second
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                // Update the clock and display the new content
+                Integer updatedContent = readClockFile() + 1;
+                // Write the updated content back to the file
+                writeClockFile(updatedContent);
+            }
+        }, 1000, 1000); // Delay 1 second, repeat every 1 second
         while (true) {
             handleReceivedMessages(ansForRequest);
 
@@ -34,20 +48,20 @@ public class startup {
             }
 
             try {
-                int userChoice = input.nextInt();
+                Integer userChoice = input.nextInt();
                 if (userChoice == 1) {
                     fish.addFish();
                 } else if (userChoice == 2) {
                     System.out.println("Enter ID of fish to remove: ");
-                    int idForRemove = removeId.nextInt();
+                    Integer idForRemove = removeId.nextInt();
                     fish.removeFish(idForRemove);
                 } else if (userChoice == 3) {
                     fish.drawFishFromDB();
                 } else if (userChoice == 4) {
                     System.out.println("Enter ID of fish to move: ");
-                    int idForMove = FishIdFormove.nextInt();
+                    Integer idForMove = FishIdFormove.nextInt();
                     System.out.println("Enter ID of pond to move to: ");
-                    int pondForMove = PondIdFormove.nextInt();
+                    Integer pondForMove = PondIdFormove.nextInt();
                     fish.moveFish(idForMove,pondForMove,portNumber);
                 } else if (userChoice == 5) {
                     shutdown.shutdownMenu();
@@ -86,7 +100,7 @@ public class startup {
         if (messages.toLowerCase().contains("move")) {
             String[] request = messages.toLowerCase().split("\\s*,\\s*");
 
-            for (int i = 0; i < request.length; i++) {
+            for (Integer i = 0; i < request.length; i++) {
                 request[i] = request[i].replaceAll("\\s+", "");
                 System.out.println(request[i]);
             }
@@ -140,7 +154,7 @@ public class startup {
     public void timeoutCounter(){
         System.out.println("Timeout counter");
         Timer timer = new Timer();
-        int timeout = 5000;
+        Integer timeout = 5000;
         timer.schedule(new TimerTask(){
             public void run(){
                 System.out.println("Timeout");
