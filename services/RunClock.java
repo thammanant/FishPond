@@ -10,6 +10,8 @@ import java.util.TimerTask;
 
 public class RunClock {
     private static String clockFilePath = "clock.txt";
+    public static int currentClockValue = 0;  // Store the current clock value
+
 
     public static void main(String[] args) {
 
@@ -20,6 +22,7 @@ public class RunClock {
             public void run() {
                 // Update the clock and display the new content
                 int updatedContent = readClockFile() + 1;
+                currentClockValue = updatedContent;
 
                 // Write the updated content back to the file
                 writeClockFile(updatedContent);
@@ -27,7 +30,7 @@ public class RunClock {
         }, 1000, 1000); // Delay 1 second, repeat every 1 second
     }
 
-    private static int readClockFile() {
+    public static int readClockFile() {
         try {
             Path filePath = Paths.get(clockFilePath);
             if (Files.exists(filePath)) {
@@ -50,5 +53,9 @@ public class RunClock {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static int getCurrentClockValue() {
+        return currentClockValue;
     }
 }

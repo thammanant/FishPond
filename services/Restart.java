@@ -1,6 +1,6 @@
 package services;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,11 +22,45 @@ public class Restart {
                     System.out.println("Clock is still running.");
                 } else {
                     System.out.println("Clock has stopped. Restarting...");
-                    //...
+                    try {
+                        compileAndRunMain();
+                    } catch (IOException | InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }, 1000, 1000); // Delay 1 second, repeat every 1 second
     }
+
+    private static void compileAndRunMain() throws IOException, InterruptedException {
+        // Get the current Java process and execute a new Java process
+        String javaCommand = System.getProperty("java.home") + "/bin/java";
+        String javaClassPath = System.getProperty("java.class.path");
+        String className = "main"; // Adjust based on the actual package and class name
+
+        // Use ProcessBuilder to compile and run main.java
+        ProcessBuilder processBuilder = new ProcessBuilder(javaCommand, "-cp", javaClassPath, className);
+
+        // Redirect error stream to the output stream
+        processBuilder.redirectErrorStream(true);
+
+        Process process = processBuilder.start();
+
+        // Capture the output of the process
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        }
+
+        // Wait for the new process to finish
+        int exitCode = process.waitFor();
+
+        // Print the exit code for debugging
+        System.out.println("Restarted process exited with code: " + exitCode);
+    }
+
 
     private static boolean isClockRunning() {
         Path filePath = Paths.get(clockFilePath);
@@ -47,5 +81,4 @@ public class Restart {
             return false;
         }
     }
-
 }
