@@ -2,6 +2,7 @@ package services;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
+import services.fishAnimation;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -16,6 +17,7 @@ public class fish {
     public int fishid;
     public int fishType;
     
+    
     public static fish createFish(int fishType){
         fish newFish = new fish();
         Random random = new Random();
@@ -26,76 +28,7 @@ public class fish {
         return newFish;
     }
 
-    public static void bubbleFish(){
-        
-        System.out.println("               O  o");
-        System.out.println("          _\\_   o");
-        System.out.println("       \\/  o\\ .");
-        System.out.println("       //\\___=");
-        System.out.println("          ''");
-        System.out.println("\n");
-    }
-
-    public static void shark(){
-        
-        System.out.println("      .            ");
-        System.out.println("\\_____\\)\\_____");
-        System.out.println("/--v____ __`<       ");
-        System.out.println("        )/           ");
-        System.out.println("        '            ");
-        System.out.println("\n");
-    }
-
-    public static void triangleFish(){
-        
-        System.out.println("     |\\    o");
-        System.out.println("    |  \\    o");
-        System.out.println("|\\ /    .\\ o");
-        System.out.println("| |       (");
-        System.out.println("|/ \\     /");
-        System.out.println("    |  /");
-        System.out.println("     |/");
-        System.out.println("\n");
-    }
-
-    public static void seahorse(){
-        System.out.println("     \\/)/)");
-        System.out.println("    _'  oo(_.-.");
-        System.out.println("  /'.     .---'");
-        System.out.println("/'-./    (");
-        System.out.println(")     ; __\\");
-        System.out.println("\\_.'\\ : __|");
-        System.out.println("     )  _/");
-        System.out.println("    (  (,.");
-        System.out.println("     '-.-'");
-        System.out.println("\n");
-    }
-
-    public static void pufflefish(){
-        
-        System.out.println("     .");
-        System.out.println("                          A       ;");
-        System.out.println("                |   ,--,-/ \\---,-/|  ,");
-        System.out.println("               _|\\,'. /|      /|   `/|-. ");
-        System.out.println("           \\`.'    /|      ,            `;.");
-        System.out.println("          ,\\   A     A         A   A _ /| `.;");
-        System.out.println("        ,/  _              A       _  / _   /|  ;");
-        System.out.println("       /\\  / \\   ,  ,           A  /    /     `/|");
-        System.out.println("      /_| | _ \\         ,     ,             ,/  \\");
-        System.out.println("     // | |/ `.\\  ,-      ,       ,   ,/ ,/      \\ /");
-        System.out.println("     / @| |@  / /'   \\  \\      ,              >  /|    ,--.");
-        System.out.println("    |\\_/   \\_/ /      |  |           ,  ,/        \\  ./' __:..");
-        System.out.println("    |  __ __  |       |  | .--.  ,         >  >   |-'   /     `");
-        System.out.println("  ,/| /  '  \\ |       |  |     \\      ,           |    /");
-        System.out.println(" /  |<--.__,->|       |  | .    `.        >  >    /   (");
-        System.out.println("/_| \\  ^  /  \\     /  /   `.    >--            /^\\   |");
-        System.out.println("      \\___/    \\   /  /      \\__'     \\   \\   \\/   \\  |");
-        System.out.println("       `.   |/          ,  ,                  /`\\    \\  )");
-        System.out.println("         \\  '  |/    ,       V    \\          /        `-\\");
-        System.out.println("          `|/-.      \\ /   \\ /,---`\\            ");
-        System.out.println("                /   `._____V_____V'");
-        System.out.println("                           '     '");
-    }
+    
 
 
     public static void moveFish(int fishID, int pondID, int port){
@@ -168,15 +101,15 @@ public class fish {
 
         System.out.print("Please select fish type: \n");
         System.out.println("Type 1)\n");
-        bubbleFish();
+        fishAnimation.bubbleFish();
         System.out.println("Type 2)\n");
-        shark();
+        fishAnimation.shark();
         System.out.println("Type 3)\n");
-        triangleFish();
+        fishAnimation.triangleFish();
         System.out.println("Type 4)\n");
-        seahorse();
+        fishAnimation.seahorse();
         System.out.println("Type 5)\n");
-        pufflefish();
+        fishAnimation.pufflefish();
         Scanner input = new Scanner(System.in);
         System.out.print("Enter fish type: ");
         String userChoice = input.nextLine();
@@ -184,23 +117,23 @@ public class fish {
         switch(userChoice){
             case "1":
                 System.out.println("You have selected bubble fish");
-                bubbleFish();
+                fishAnimation.bubbleFish();
                 break;
             case "2":
                 System.out.println("You have selected shark");
-                shark();
+                fishAnimation.shark();
                 break;
             case "3":
                 System.out.println("You have selected triangle fish");
-                triangleFish();
+                fishAnimation.triangleFish();
                 break;
             case "4":
                 System.out.println("You have selected seahorse");
-                seahorse();
+                fishAnimation.seahorse();
                 break;
             case "5":
                 System.out.println("You have selected pufflefish");
-                pufflefish();
+                fishAnimation.pufflefish();
                 break;
             case "exit":
                 System.out.println("Quitting...");
@@ -223,19 +156,19 @@ public class fish {
             System.out.println("id: " + fishid);
             switch(fishType){
                 case 1:
-                    bubbleFish();
+                    fishAnimation.bubbleFish();
                     break;
                 case 2:
-                    shark();
+                    fishAnimation.shark();
                     break;
                 case 3:
-                    triangleFish();
+                    fishAnimation.triangleFish();
                     break;
                 case 4:
-                    seahorse();
+                    fishAnimation.seahorse();
                     break;
                 case 5:
-                    pufflefish();
+                    fishAnimation.pufflefish();
                     break;
                 default:
                     System.out.println("Invalid input, please type number between 1-5");
