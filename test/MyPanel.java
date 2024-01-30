@@ -7,6 +7,8 @@ import org.json.simple.JSONObject;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Random;
+
 import services.database;
 
 public class MyPanel extends JPanel implements ActionListener {
@@ -31,30 +33,27 @@ public class MyPanel extends JPanel implements ActionListener {
     int x = 0;
     int y = 0;
     int count = 0;
-    int fishPosition[];
+    int fishPosition[][];
 
     MyPanel(){
         this.setPreferredSize(new Dimension(Panel_Width, Panel_Height));
         this.setBackground(Color.black);
         bubble_fish_right = new ImageIcon("FishImage\\bubbleFish_right.png").getImage();
-        bubble_fish_left = new ImageIcon("FishImage\\bubbleFish_left.png").getImage();
         shark_right = new ImageIcon("FishImage\\shark_right.png").getImage();
-        shark_left = new ImageIcon("FishImage\\shark_left.png").getImage();
         triangle_fish_right = new ImageIcon("FishImage\\Triangle_fish_right.png").getImage();
-        triangle_fish_left = new ImageIcon("FishImage\\Triangle_fish_left.png").getImage();
         seahorse_right = new ImageIcon("FishImage\\sea_horse_right.png").getImage();
-        seahorse_left = new ImageIcon("FishImage\\sea_horse_left.png").getImage();
         pufflefish_right = new ImageIcon("FishImage\\Puffer_fish_right.png").getImage();
-        pufflefish_left = new ImageIcon("FishImage\\Puffer_fish_left.png").getImage();
 
         background = new ImageIcon("test\\aqua.jpg").getImage();
         timer = new Timer(10,this);
         timer.start();
         JSONArray fishlist = database.readFishFromDB();
-        fishPosition = new int[fishlist.size()];
-        // random y value in range of 0 to 768 in array
-        for(int i = 0; i < fishlist.size(); i++){
-            fishPosition[i] = (int) (Math.random() * 768);
+        fishPosition = new int[fishlist.size()][3];
+        Random random = new Random();
+        for (int i = 0; i < fishlist.size(); i++) {
+            fishPosition[i][0] = random.nextInt(1024); // Random pos x within 1024
+            fishPosition[i][1] = random.nextInt(750);  // Random pos y within 768
+            fishPosition[i][2] = 0; // Set type to 0
         }
         
     }
@@ -69,25 +68,26 @@ public class MyPanel extends JPanel implements ActionListener {
         for(Object o : fishlist){
             JSONObject fish = (JSONObject) o;
             int fishType = Integer.parseInt((String) fish.get("fishType"));
+            fishPosition[i][2] = fishType;
             switch (fishType) {
                 case 1:
-                    g2D.drawImage(bubble_fish_right,x,fishPosition[i],null);
+                    g2D.drawImage(bubble_fish_right,fishPosition[i][0],fishPosition[i][1],null);
                     System.out.println(x);
                     break;
                 case 2:
-                    g2D.drawImage(shark_right,x,fishPosition[i],null);
+                    g2D.drawImage(shark_right,fishPosition[i][0],fishPosition[i][1],null);
                     System.out.println(x);
                     break;
                 case 3:
-                    g2D.drawImage(triangle_fish_right,x,fishPosition[i],null);
+                    g2D.drawImage(triangle_fish_right,fishPosition[i][0],fishPosition[i][1],null);
                     System.out.println(x);
                     break;
                 case 4:
-                    g2D.drawImage(seahorse_right,x,fishPosition[i],null);
+                    g2D.drawImage(seahorse_right,fishPosition[i][0],fishPosition[i][1],null);
                     System.out.println(x);
                     break;
                 case 5:
-                    g2D.drawImage(pufflefish_right,x,fishPosition[i],null);
+                    g2D.drawImage(pufflefish_right,fishPosition[i][0],fishPosition[i][1],null);
                     System.out.println(x);
                     break;
             
@@ -111,7 +111,30 @@ public class MyPanel extends JPanel implements ActionListener {
             xVelocity = xVelocity * -1;
         }
 
-        x += xVelocity;
+        for(int i = 0; i < fishPosition.length; i++){
+            if(fishPosition[i][0] > Panel_Width - 90){
+                xVelocity = xVelocity * -1;
+                bubble_fish_right = new ImageIcon("FishImage\\bubbleFish_left.png").getImage();
+                shark_right = new ImageIcon("FishImage\\shark_left.png").getImage();
+                triangle_fish_right = new ImageIcon("FishImage\\Triangle_fish_left.png").getImage();
+                seahorse_right = new ImageIcon("FishImage\\sea_horse_left.png").getImage();
+                pufflefish_right = new ImageIcon("FishImage\\Puffer_fish_left.png").getImage();
+                
+            }
+            else if (fishPosition[i][0]<0){
+                xVelocity = xVelocity * -1;
+                bubble_fish_right = new ImageIcon("FishImage\\bubbleFish_right.png").getImage();
+                shark_right = new ImageIcon("FishImage\\shark_right.png").getImage();
+                triangle_fish_right = new ImageIcon("FishImage\\Triangle_fish_right.png").getImage();
+                seahorse_right = new ImageIcon("FishImage\\sea_horse_right.png").getImage();
+                pufflefish_right = new ImageIcon("FishImage\\Puffer_fish_right.png").getImage();
+            }
+            else if(fishPosition[i][1] > Panel_Height || fishPosition[i][1] < 30){
+                yVelocity = yVelocity * -1;
+            }
+            fishPosition[i][0] += xVelocity;
+            fishPosition[i][1] += yVelocity;
+        }
         repaint();
     }
 }

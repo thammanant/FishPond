@@ -8,6 +8,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.lang.InterruptedException;
 import java.util.Scanner;
+import test.*;
 
 
 public class startup {
@@ -60,6 +61,7 @@ public class startup {
                     fish.removeFish(idForRemove);
                 } else if (userChoice == 3) {
                     fish.drawFishFromDB();
+                    new MyFrame();
                 } else if (userChoice == 4) {
                     System.out.println("Enter ID of fish to move: ");
                     Integer idForMove = FishIdFormove.nextInt();
