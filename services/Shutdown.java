@@ -1,9 +1,9 @@
 package services;
 
 import java.util.Scanner;
-public class shutdown {
+public class Shutdown {
     
-    public static void shutdownMenu(){
+    public static void display_shutdown_menu(){
         Scanner input = new Scanner(System.in);
         while(true){
             System.out.println("press Q to quit");

@@ -9,17 +9,16 @@ import java.util.TimerTask;
 import java.lang.InterruptedException;
 import java.util.Scanner;
 import sun.misc.Signal;
-import sun.misc.SignalHandler;
 
 
-public class startup {
+public class StartUp {
     private static Integer pondID;
     private static Integer portNumber = 12345;
 
     private static boolean messageReceived = false;
 
     public static Integer clock = 0;
-    public startup(Integer pondID) {
+    public StartUp(Integer pondID) {
         this.pondID = pondID;
     }
 
@@ -32,7 +31,7 @@ public class startup {
         Scanner ansForRequest = new Scanner(System.in);
         System.out.println("Pond ID: " + pondID);
         System.out.println("Starting server" );
-        Thread serverThread = new Thread(() -> MulticastServer.runServer(portNumber));
+        Thread serverThread = new Thread(() -> MulticastServer.run_server(portNumber));
         serverThread.start();
         // Set up a timer to update and write the clock every second
         Timer timer = new Timer();
@@ -47,9 +46,9 @@ public class startup {
         }, 1000, 1000); // Delay 1 second, repeat every 1 second
         while (true) {
             // handle crash
-            Signal.handle(new Signal("INT"), new eventHandler.ExSignalHandler());
-            Signal.handle(new Signal("TERM"), new eventHandler.ExSignalHandler());
-            Signal.handle(new Signal("HUP"), new eventHandler.ExSignalHandler());
+            Signal.handle(new Signal("INT"), new EventHandler.ExSignalHandler());
+            Signal.handle(new Signal("TERM"), new EventHandler.ExSignalHandler());
+            Signal.handle(new Signal("HUP"), new EventHandler.ExSignalHandler());
 
 
             handleReceivedMessages(ansForRequest);
@@ -61,27 +60,31 @@ public class startup {
             try {
                 Integer userChoice = input.nextInt();
                 if (userChoice == 1) {
-                    fish.addFish();
+                    Fish.add_fish();
                 } else if (userChoice == 2) {
                     System.out.println("Enter ID of fish to remove: ");
                     Integer idForRemove = removeId.nextInt();
-                    fish.removeFish(idForRemove);
+                    Fish.remove_fish(idForRemove);
                 } else if (userChoice == 3) {
-                    fish.drawFishFromDB();
+                    Fish.draw_fish_fromDB();
                 } else if (userChoice == 4) {
                     System.out.println("Enter ID of fish to move: ");
                     Integer idForMove = FishIdFormove.nextInt();
                     System.out.println("Enter ID of pond to move to: ");
                     Integer pondForMove = PondIdFormove.nextInt();
-                    fish.moveFish(idForMove,pondForMove,portNumber);
+                    Fish.move_fish(idForMove,pondForMove,portNumber);
                 } else if (userChoice == 5) {
-                    shutdown.shutdownMenu();
+                    Shutdown.display_shutdown_menu();
                 }
                 else if (userChoice == 6) {
-                    eventHandler.ExtendedSystemReport.main(null);
+                    EventHandler.ExtendedSystemReport.generate_system_report();
+                }
+                else if (userChoice == 7) {
+                    EventHandler.FishPondReport.generate_fishpond_report();
                 }
                 else {
                     System.out.println("Invalid input");
+                    System.out.println();
                 }
             } catch (Exception e) {
                 System.out.println("Invalid input");
@@ -93,11 +96,11 @@ public class startup {
     }
 
     private static void handleReceivedMessages(Scanner ansForRequest) {
-        String messages = MulticastServer.getReceivedMessages();
+        String messages = MulticastServer.get_received_messages();
         if (!messages.isEmpty()) {
             processReceivedMessages(messages, ansForRequest);
             messageReceived = true;
-            MulticastServer.clearReceivedMessages();
+            MulticastServer.clear_received_messages();
         }
 
         if (messageReceived) {
@@ -128,9 +131,9 @@ public class startup {
 
                 String ans = ansForRequest.nextLine();
                 if (ans.equalsIgnoreCase("Y")) {
-                    fish.ackFish(Integer.parseInt(request[1]), Integer.parseInt(request[2]), portNumber, "acpt");
+                    Fish.ack_fish(Integer.parseInt(request[1]), Integer.parseInt(request[2]), portNumber, "acpt");
                 } else if (ans.equalsIgnoreCase("N")) {
-                    fish.ackFish(Integer.parseInt(request[1]), Integer.parseInt(request[2]), portNumber, "rej");
+                    Fish.ack_fish(Integer.parseInt(request[1]), Integer.parseInt(request[2]), portNumber, "rej");
                 }
             } else {
                 System.out.println("Message not for this pond");
@@ -189,8 +192,6 @@ public class startup {
         }
     }
 
-    }
-
     public static void writeClockFile(int content) {
         try {
             Path filePath = Paths.get("clock.txt");
@@ -205,4 +206,11 @@ public class startup {
         return clock;
     }
 
+    public static Integer getPondID() {
+        return pondID;
+    }
+
+    public static Integer getPortNumber() {
+        return portNumber;
+    }
 }
