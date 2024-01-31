@@ -3,6 +3,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.lang.InterruptedException;
 import java.util.Scanner;
+import sun.misc.Signal;
+import sun.misc.SignalHandler;
 
 
 public class startup {
@@ -27,6 +29,12 @@ public class startup {
         Thread serverThread = new Thread(() -> MulticastServer.runServer(portNumber));
         serverThread.start();
         while (true) {
+            // handle crash
+            Signal.handle(new Signal("INT"), new eventHandler.ExSignalHandler());
+            Signal.handle(new Signal("TERM"), new eventHandler.ExSignalHandler());
+            Signal.handle(new Signal("HUP"), new eventHandler.ExSignalHandler());
+
+
             handleReceivedMessages(ansForRequest);
 
             if (!messageReceived) {
@@ -51,6 +59,12 @@ public class startup {
                     fish.moveFish(idForMove,pondForMove,portNumber);
                 } else if (userChoice == 5) {
                     shutdown.shutdownMenu();
+                }
+                else if (userChoice == 6) {
+                    eventHandler.ExtendedSystemReport.main(null);
+                }
+                else {
+                    System.out.println("Invalid input");
                 }
             } catch (Exception e) {
                 System.out.println("Invalid input");
@@ -119,6 +133,8 @@ public class startup {
         System.out.println("3: Draw pond");
         System.out.println("4: Move fish");
         System.out.println("5: Shutdown");
+        System.out.println("6: System Report");
+        System.out.println("7: Pond Report");
         System.out.print("Please enter your choice: ");
     }
 
@@ -154,8 +170,7 @@ public class startup {
             timer.cancel();
             System.out.println("Timeout 1234");
         }
-
-
     }
+
 
 }
