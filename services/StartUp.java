@@ -60,19 +60,19 @@ public class StartUp {
             try {
                 Integer userChoice = input.nextInt();
                 if (userChoice == 1) {
-                    Fish.add_fish();
+                    Fish_old.add_fish();
                 } else if (userChoice == 2) {
                     System.out.println("Enter ID of fish to remove: ");
                     Integer idForRemove = removeId.nextInt();
-                    Fish.remove_fish(idForRemove);
+                    Fish_old.remove_fish(idForRemove);
                 } else if (userChoice == 3) {
-                    Fish.draw_fish_fromDB();
+                    Fish_old.draw_fish_fromDB();
                 } else if (userChoice == 4) {
                     System.out.println("Enter ID of fish to move: ");
                     Integer idForMove = FishIdFormove.nextInt();
                     System.out.println("Enter ID of pond to move to: ");
                     Integer pondForMove = PondIdFormove.nextInt();
-                    Fish.move_fish(idForMove,pondForMove,portNumber);
+                    Fish_old.move_fish(idForMove,pondForMove,portNumber);
                 } else if (userChoice == 5) {
                     Shutdown.display_shutdown_menu();
                 }
@@ -131,9 +131,9 @@ public class StartUp {
 
                 String ans = ansForRequest.nextLine();
                 if (ans.equalsIgnoreCase("Y")) {
-                    Fish.ack_fish(Integer.parseInt(request[1]), Integer.parseInt(request[2]), portNumber, "acpt");
+                    Fish_old.ack_fish(Integer.parseInt(request[1]), Integer.parseInt(request[2]), portNumber, "acpt");
                 } else if (ans.equalsIgnoreCase("N")) {
-                    Fish.ack_fish(Integer.parseInt(request[1]), Integer.parseInt(request[2]), portNumber, "rej");
+                    Fish_old.ack_fish(Integer.parseInt(request[1]), Integer.parseInt(request[2]), portNumber, "rej");
                 }
             } else {
                 System.out.println("Message not for this pond");

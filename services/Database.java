@@ -28,6 +28,11 @@ public class Database {
         System.out.println("JSON file created: " + obj);
     }
 
+    public static void add_fish_from_other_pond(int fishID, int fishType){
+        Database.add_fish_toDB(fishID, fishType);
+    }
+
+
     public static JSONArray read_fish_fromDB() {
         try (FileReader reader = new FileReader(path)) {
             JSONParser jsonParser = new JSONParser();
@@ -57,4 +62,16 @@ public class Database {
             e.printStackTrace();
         }
     }
+
+    public static boolean check_fish_id(int fishid) {
+        JSONArray fishList = read_fish_fromDB();
+        for (Object o : fishList) {
+            JSONObject fish = (JSONObject) o;
+            if (fish.get("fishid").equals(String.valueOf(fishid))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

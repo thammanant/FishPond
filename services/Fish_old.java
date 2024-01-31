@@ -11,13 +11,13 @@ import java.util.Random;
 import static services.ManageLogFile.write_to_log;
 import static services.StartUp.getCurrentClock;
 
-public class Fish {
+public class Fish_old {
     public int fishid;
     public int fishType;
     
     
-    public static Fish create_fish(int fishType){
-        Fish newFish = new Fish();
+    public static Fish_old create_fish(int fishType){
+        Fish_old newFish = new Fish_old();
         Random random = new Random();
         int randomNum = random.nextInt(10);
         //conditional for checking if fishid is exist
@@ -73,7 +73,7 @@ public class Fish {
                     if (fishid == fishID) {
                         System.out.println("Fish already added");
                     } else {
-                        add_fish_from_other_pond(fishID, fishType);
+                        Database.add_fish_from_other_pond(fishID, fishType);
                         System.out.println("Fish added");
                     }
                 }
@@ -89,9 +89,9 @@ public class Fish {
 
     }
 
-    public static void add_fish_from_other_pond(int fishID, int fishType){
-        Database.add_fish_toDB(fishID, fishType);
-    }
+//    public static void add_fish_from_other_pond(int fishID, int fishType){
+//        Database.add_fish_toDB(fishID, fishType);
+//    }
 
     public static void add_fish(){
 
@@ -139,7 +139,7 @@ public class Fish {
                 return;
         }
 
-        Fish newFish = create_fish(Integer.parseInt(userChoice));
+        Fish_old newFish = create_fish(Integer.parseInt(userChoice));
         Database.add_fish_toDB(newFish.fishid, newFish.fishType);
     }
 
@@ -179,7 +179,6 @@ public class Fish {
             System.out.println("Fish id: " + fishid + " removed");
             break;
         }
-
     }
 }
 
