@@ -1,17 +1,39 @@
 package services;
 
-import java.io.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-public class eventHandler {
-    public static boolean writeToLog(String command, Integer fishID, Integer pondID, Integer clock) {
-        return writeToLog(command, fishID, pondID, clock, null); // Call the main function with default msg
+import java.io.*;
+
+public class ManageLogFile {
+    private static final String logFile = "log.txt";
+
+    public static String read_log() {
+        try {
+            FileReader fileReader = new FileReader(logFile);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            // Read the log file line by line
+            String line;
+            StringBuilder log = new StringBuilder();
+            while ((line = bufferedReader.readLine()) != null) {
+                log.append(line).append("\n");
+            }
+
+            bufferedReader.close();
+            return log.toString(); // Successfully read the log file
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null; // Failed to read the log file
+        }
+    }
+    public static boolean write_to_log(String command, Integer fishID, Integer pondID, Integer clock) {
+        return write_to_log(command, fishID, pondID, clock, null); // Call the main function with default msg
     }
 
-    public static boolean writeToLog(String command, Integer fishID, Integer pondID, Integer clock, String msg) {
+    public static boolean write_to_log(String command, Integer fishID, Integer pondID, Integer clock, String msg) {
         try {
-            FileWriter fileWriter = new FileWriter("log.txt", true); // true for appending to the file
+            FileWriter fileWriter = new FileWriter(logFile, true); // true for appending to the file
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
             // Construct the log message
@@ -27,10 +49,9 @@ public class eventHandler {
         }
     }
 
-    public static boolean redoList() {
+    public static boolean redo_task() {
         try {
-            String filePath = "log.txt";
-            FileReader fileReader = new FileReader(filePath);
+            FileReader fileReader = new FileReader(logFile);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
 
             // Get the number of lines in the file
@@ -40,11 +61,11 @@ public class eventHandler {
             Integer redo = (int) lineCount;
 
             // Perform binary search on clock values
-            redo = binarySearch(1, (int) lineCount - 1, redo);
+            redo = binary_search(1, (int) lineCount - 1, redo);
 
             // Reset bufferedReader to the start of the file
             bufferedReader.close();
-            fileReader = new FileReader(filePath);
+            fileReader = new FileReader(logFile);
             bufferedReader = new BufferedReader(fileReader);
 
             // Skip lines till the redo starting point
@@ -64,9 +85,9 @@ public class eventHandler {
                 String msg = fields[4];
 
                 if ("move".equals(command)) {
-                    fish.moveFish(fishID,pondID, 12345);
+                    Fish.move_fish(fishID, pondID, 12345);
                 } else if ("ack".equals(command) && "acpt".equals(msg)) {
-                    fish.ackFish(fishID,pondID, 12345, "acpt");
+                    Fish.ack_fish(fishID, pondID, 12345, "acpt");
                 }
 
                 currentLine++;
@@ -81,12 +102,12 @@ public class eventHandler {
     }
 
 
-    private static Integer binarySearch(Integer start, Integer end, Integer redo) throws IOException {
+    private static Integer binary_search(Integer start, Integer end, Integer redo) throws IOException {
         while (start <= end) {
             Integer mid = start + (end - start) / 2;
 
             // Read the line at the mid point
-            String line = readLineAt(mid);
+            String line = read_line_at(mid);
 
             // Process the log entry
             if (check(line)) {
@@ -104,10 +125,8 @@ public class eventHandler {
     }
 
 
-
-    private static String readLineAt(long lineNumber) {
-        String filePath = "log.txt";
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
+    private static String read_line_at(long lineNumber) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(logFile))) {
             String line;
             long lineCount = 0;
 
@@ -134,16 +153,16 @@ public class eventHandler {
         Integer fishID = Integer.parseInt(fields[1]);
         String msg = fields[3];
         if ("move".equals(command)) {
-            return !isFishInPond(fishID);
+            return !is_fish_in_pond(fishID);
         } else if ("ack".equals(command) && ("acpt".equals(msg))) {
-            return isFishInPond(fishID);
+            return is_fish_in_pond(fishID);
         }
         return false;
     }
 
-    private static boolean isFishInPond(int fishID) {
+    private static boolean is_fish_in_pond(int fishID) {
         // Your logic to check whether the fish is still in the pond
-        JSONArray fishList = database.readFishFromDB();
+        JSONArray fishList = Database.read_fish_fromDB();
         for (Object o : fishList) {
             JSONObject fish = (JSONObject) o;
             int storedFishID = Integer.parseInt((String) fish.get("fishid"));
@@ -153,11 +172,4 @@ public class eventHandler {
         }
         return false;
     }
-
-    public static void main(String[] args) {
-        // Test the redoList function
-        redoList();
-    }
 }
-
-

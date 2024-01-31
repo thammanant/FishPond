@@ -1,6 +1,6 @@
 package services;
 
-public class fishAnimation {
+public class FishAnimation {
     public static void bubbleFish(){
         
         System.out.println("               O  o");
@@ -13,7 +13,6 @@ public class fishAnimation {
 
 
     public static void shark(){
-        
         System.out.println("      .            ");
         System.out.println("\\_____\\)\\_____");
         System.out.println("/--v____ __`<       ");

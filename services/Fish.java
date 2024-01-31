@@ -2,24 +2,22 @@ package services;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
-import services.fishAnimation;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.util.Random;
 
+import static services.ManageLogFile.write_to_log;
+import static services.StartUp.getCurrentClock;
 
-import static services.eventHandler.writeToLog;
-import static services.startup.getCurrentClock;
-
-public class fish {
+public class Fish {
     public int fishid;
     public int fishType;
     
     
-    public static fish createFish(int fishType){
-        fish newFish = new fish();
+    public static Fish create_fish(int fishType){
+        Fish newFish = new Fish();
         Random random = new Random();
         int randomNum = random.nextInt(10);
         //conditional for checking if fishid is exist
@@ -28,20 +26,18 @@ public class fish {
         return newFish;
     }
 
-    
 
-
-    public static void moveFish(int fishID, int pondID, int port){
+    public static void move_fish(int fishID, int pondID, int port){
         // call multicast client
         MulticastClient client = new MulticastClient(port);
         try {
             while (true) {
-                client.sendMulticastMessage("move," + fishID + "," + pondID);
+                client.send_multicast_message("move," + fishID + "," + pondID);
                 // get response from server
-                String response = MulticastServer.getReceivedMessages();
-                writeToLog("move", fishID, pondID, getCurrentClock());
+                String response = MulticastServer.get_received_messages();
+                ManageLogFile.write_to_log("move", fishID, pondID, getCurrentClock());
                 if (response.equals("ack," + fishID + "," + pondID + "acpt")){ // if accepted
-                    database.removeFishFromDB(fishID);
+                    Database.remove_fish_fromDB(fishID);
                     break;
                 }
                 else if (response.equals("ack," + fishID + "," + pondID + "rej")){ // if rejected
@@ -57,7 +53,7 @@ public class fish {
         }
     }
 
-    public static void ackFish(int fishID, int pondID, int port, String status){
+    public static void ack_fish(int fishID, int pondID, int port, String status){
         // status must only be acpt for accept or rej for reject
         if (!Objects.equals(status, "acpt") && !Objects.equals(status, "rej")){
             System.out.println("Invalid status");
@@ -67,9 +63,9 @@ public class fish {
         MulticastClient client = new MulticastClient(port);
         try {
             if(status.equals("acpt")) {
-                writeToLog("ack", fishID, pondID, getCurrentClock(), status);
+                write_to_log("ack", fishID, pondID, getCurrentClock(), status);
                 //check fish within database
-                JSONArray fishList = database.readFishFromDB();
+                JSONArray fishList = Database.read_fish_fromDB();
                 for (Object o : fishList) {
                     JSONObject fish = (JSONObject) o;
                     int fishType = 4;
@@ -77,7 +73,7 @@ public class fish {
                     if (fishid == fishID) {
                         System.out.println("Fish already added");
                     } else {
-                        addFishFromOtherPond(fishID, fishType);
+                        add_fish_from_other_pond(fishID, fishType);
                         System.out.println("Fish added");
                     }
                 }
@@ -85,7 +81,7 @@ public class fish {
             else{
                 System.out.println("Fish rejected");
             }
-            client.sendMulticastMessage("ack," + fishID + "," + pondID + "," + status);
+            client.send_multicast_message("ack," + fishID + "," + pondID + "," + status);
             System.out.println("Ack sent");
         } catch (IOException e) {
             e.printStackTrace();
@@ -93,23 +89,23 @@ public class fish {
 
     }
 
-    public static void addFishFromOtherPond(int fishID, int fishType){
-        database.addFishToDB(fishID, fishType);
+    public static void add_fish_from_other_pond(int fishID, int fishType){
+        Database.add_fish_toDB(fishID, fishType);
     }
 
-    public static void addFish(){
+    public static void add_fish(){
 
         System.out.print("Please select fish type: \n");
         System.out.println("Type 1)\n");
-        fishAnimation.bubbleFish();
+        FishAnimation.bubbleFish();
         System.out.println("Type 2)\n");
-        fishAnimation.shark();
+        FishAnimation.shark();
         System.out.println("Type 3)\n");
-        fishAnimation.triangleFish();
+        FishAnimation.triangleFish();
         System.out.println("Type 4)\n");
-        fishAnimation.seahorse();
+        FishAnimation.seahorse();
         System.out.println("Type 5)\n");
-        fishAnimation.pufflefish();
+        FishAnimation.pufflefish();
         Scanner input = new Scanner(System.in);
         System.out.print("Enter fish type: ");
         String userChoice = input.nextLine();
@@ -117,23 +113,23 @@ public class fish {
         switch(userChoice){
             case "1":
                 System.out.println("You have selected bubble fish");
-                fishAnimation.bubbleFish();
+                FishAnimation.bubbleFish();
                 break;
             case "2":
                 System.out.println("You have selected shark");
-                fishAnimation.shark();
+                FishAnimation.shark();
                 break;
             case "3":
                 System.out.println("You have selected triangle fish");
-                fishAnimation.triangleFish();
+                FishAnimation.triangleFish();
                 break;
             case "4":
                 System.out.println("You have selected seahorse");
-                fishAnimation.seahorse();
+                FishAnimation.seahorse();
                 break;
             case "5":
                 System.out.println("You have selected pufflefish");
-                fishAnimation.pufflefish();
+                FishAnimation.pufflefish();
                 break;
             case "exit":
                 System.out.println("Quitting...");
@@ -143,12 +139,12 @@ public class fish {
                 return;
         }
 
-        fish newFish = createFish(Integer.parseInt(userChoice));
-        database.addFishToDB(newFish.fishid, newFish.fishType);
+        Fish newFish = create_fish(Integer.parseInt(userChoice));
+        Database.add_fish_toDB(newFish.fishid, newFish.fishType);
     }
 
-    public static void drawFishFromDB(){
-        JSONArray fishList = database.readFishFromDB();
+    public static void draw_fish_fromDB(){
+        JSONArray fishList = Database.read_fish_fromDB();
         for (Object o : fishList) {
             JSONObject fish = (JSONObject) o;
             int fishType = Integer.parseInt((String) fish.get("fishType"));
@@ -156,19 +152,19 @@ public class fish {
             System.out.println("id: " + fishid);
             switch(fishType){
                 case 1:
-                    fishAnimation.bubbleFish();
+                    FishAnimation.bubbleFish();
                     break;
                 case 2:
-                    fishAnimation.shark();
+                    FishAnimation.shark();
                     break;
                 case 3:
-                    fishAnimation.triangleFish();
+                    FishAnimation.triangleFish();
                     break;
                 case 4:
-                    fishAnimation.seahorse();
+                    FishAnimation.seahorse();
                     break;
                 case 5:
-                    fishAnimation.pufflefish();
+                    FishAnimation.pufflefish();
                     break;
                 default:
                     System.out.println("Invalid input, please type number between 1-5");
@@ -177,9 +173,9 @@ public class fish {
         }
     }
 
-    public static void removeFish(int fishid){
+    public static void remove_fish(int fishid){
         while(true){
-            database.removeFishFromDB(fishid);
+            Database.remove_fish_fromDB(fishid);
             System.out.println("Fish id: " + fishid + " removed");
             break;
         }

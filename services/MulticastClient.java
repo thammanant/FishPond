@@ -28,7 +28,7 @@ public class MulticastClient implements Runnable {
         }
     }
 
-    public void sendMulticastMessage(String message) throws IOException {
+    public void send_multicast_message(String message) throws IOException {
         DatagramSocket senderSocket = new DatagramSocket();
         byte[] msg = message.getBytes();
         DatagramPacket packet = new DatagramPacket(msg, msg.length, group, port);
@@ -36,7 +36,7 @@ public class MulticastClient implements Runnable {
         senderSocket.close();
     }
 
-    public void handleShutdown() {
+    public void handle_shutdown() {
         try 
         {
             socket.leaveGroup(new InetSocketAddress(group, port), NetworkInterface.getByInetAddress(InetAddress.getLocalHost()));
@@ -55,10 +55,10 @@ public class MulticastClient implements Runnable {
             while (true) {
                 String command = scanner.nextLine().toUpperCase();
                 if (command.equals("Q")) {
-                    handleShutdown();
+                    handle_shutdown();
                     break;
                 } else {
-                    sendMulticastMessage(command);
+                    send_multicast_message(command);
                 }
             }
         } catch (IOException e) {

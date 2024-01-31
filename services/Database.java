@@ -8,16 +8,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class database {
+public class Database {
     private static final String path = "fish.json";
 
-
-    public static void main(String[] argv){
-        addFishToDB(1,2);
-    }
-
-    public static void addFishToDB(int fishid, int fishType) {
-        JSONArray fishList = readFishFromDB();
+    public static void add_fish_toDB(int fishid, int fishType) {
+        JSONArray fishList = read_fish_fromDB();
         JSONObject obj = new JSONObject();
         obj.put("fishid", String.valueOf(fishid));
         obj.put("fishType", String.valueOf(fishType));
@@ -33,7 +28,7 @@ public class database {
         System.out.println("JSON file created: " + obj);
     }
 
-    public static JSONArray readFishFromDB() {
+    public static JSONArray read_fish_fromDB() {
         try (FileReader reader = new FileReader(path)) {
             JSONParser jsonParser = new JSONParser();
             return (JSONArray) jsonParser.parse(reader);
@@ -44,8 +39,8 @@ public class database {
         }
     }
 
-    public static void removeFishFromDB(int fishid) {
-        JSONArray fishList = readFishFromDB();
+    public static void remove_fish_fromDB(int fishid) {
+        JSONArray fishList = read_fish_fromDB();
         for (int i = 0; i < fishList.size(); i++) {
             JSONObject fish = (JSONObject) fishList.get(i);
             if (fish.get("fishid").equals(String.valueOf(fishid))) {
