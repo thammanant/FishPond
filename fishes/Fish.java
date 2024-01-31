@@ -1,17 +1,7 @@
 package fishes;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import services.Database;
-import services.ManageLogFile;
-import services.MulticastClient;
-import services.MulticastServer;
 
-import java.io.IOException;
-import java.util.Objects;
-
-import static services.ManageLogFile.write_to_log;
-import static services.StartUp.getCurrentClock;
 
 public abstract class Fish {
 

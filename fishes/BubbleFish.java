@@ -1,6 +1,5 @@
 package fishes;
 
-import fishes.Fish;
 import services.Database;
 
 import java.util.Random;
