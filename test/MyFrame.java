@@ -6,7 +6,7 @@ import javax.swing.*;
 public class MyFrame extends JFrame {
     MyPanel panel;
 
-    MyFrame(){
+    public MyFrame(){
         panel = new MyPanel();
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
