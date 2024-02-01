@@ -3,13 +3,16 @@ package services;
 import fishes.*;
 
 public class DisplayMenu {
-    public static void display_main_menu() {
-        System.out.println("1. Add Fish");
-        System.out.println("2. Remove Fish");
-        System.out.println("3. Move Fish");
-        System.out.println("4. Undo");
-        System.out.println("5. Redo");
-        System.out.println("6. Exit");
+
+    public void display_main_menu() {
+        System.out.println("1. Add fish");
+        System.out.println("2. Remove fish");
+        System.out.println("3. Draw fish pond");
+        System.out.println("4. Move fish");
+        System.out.println("5. Shutdown");
+        System.out.println("6. System report");
+        System.out.println("7. Pond report");
+
     }
 
     public void add_fish_menu() {
