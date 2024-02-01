@@ -8,7 +8,6 @@ import java.util.Objects;
 import java.util.Scanner;
 
 import static services.ManageLogFile.write_to_log;
-import static services.StartUp.getCurrentClock;
 
 public class Communicate {
 
@@ -30,7 +29,7 @@ public class Communicate {
                 client.send_multicast_message("move," + fishID + "," + pondID);
                 // get response from server
                 String response = MulticastServer.get_received_messages();
-                ManageLogFile.write_to_log("move", fishID, pondID, getCurrentClock());
+                ManageLogFile.write_to_log("move", fishID, pondID, Clock.get_current_clock());
                 if (response.equals("ack," + fishID + "," + pondID + "acpt")){ // if accepted
                     Database.remove_fish_fromDB(fishID);
                     break;
@@ -58,7 +57,7 @@ public class Communicate {
         MulticastClient client = new MulticastClient(port);
         try {
             if(status.equals("acpt")) {
-                write_to_log("ack", fishID, pondID, getCurrentClock(), status);
+                write_to_log("ack", fishID, pondID, Clock.get_current_clock(), status);
                 //check fish within database
                 JSONArray fishList = Database.read_fish_fromDB();
                 for (Object o : fishList) {
@@ -136,8 +135,8 @@ public class Communicate {
                 Integer.parseInt(request[2]) == pondID;
     }
 
-    public boolean set_message_received(boolean messageReceived) {
-        return this.messageReceived = messageReceived;
+    public void set_message_received(boolean messageReceived) {
+        this.messageReceived = messageReceived;
     }
 
 }
