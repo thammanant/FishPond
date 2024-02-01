@@ -3,6 +3,7 @@ package services;
 import fishes.*;
 
 public class DisplayMenu {
+
     public void display_main_menu() {
         System.out.println("1. Add fish");
         System.out.println("2. Remove fish");
@@ -11,6 +12,7 @@ public class DisplayMenu {
         System.out.println("5. Shutdown");
         System.out.println("6. System report");
         System.out.println("7. Pond report");
+
     }
 
     public void add_fish_menu() {
