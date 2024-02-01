@@ -13,6 +13,8 @@ public class Pond {
     public void start(){
         StartUp startUp = new StartUp(this.pondID);
         startUp.start();
+        Clock.start_clock();
+
     }
 
     public Integer get_pond_ID() {
