@@ -12,7 +12,7 @@ import static services.StartUp.getCurrentClock;
 
 public class Communicate {
 
-    private static boolean messageReceived = false;
+    boolean messageReceived = false;
 
     int pondID;
 
@@ -84,25 +84,25 @@ public class Communicate {
 
     }
 
-    public void handleReceivedMessages(Scanner ansForRequest) {
+    public void handle_received_messages(Scanner ansForRequest) {
         String messages = MulticastServer.get_received_messages();
         if (!messages.isEmpty()) {
-            processReceivedMessages(messages, ansForRequest);
-            messageReceived = true;
+            this.process_received_messages(messages, ansForRequest);
+            this.messageReceived = true;
             MulticastServer.clear_received_messages();
         }
 
-        if (messageReceived) {
+        if (this.messageReceived) {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace(); // Handle the exception if needed
             }
-            messageReceived = false;
+            this.messageReceived = false;
         }
     }
 
-    public void processReceivedMessages(String messages, Scanner ansForRequest) {
+    private void process_received_messages(String messages, Scanner ansForRequest) {
         // Process received messages
         System.out.println("Received request:\n" + messages.toLowerCase());
 
@@ -114,7 +114,7 @@ public class Communicate {
                 System.out.println(request[i]);
             }
 
-            if (isValidMoveRequest(request,this.pondID)) {
+            if (is_valid_move_request(request,this.pondID)) {
                 System.out.println("New incoming fish");
                 System.out.println("Would you like to accept? (Y/N)");
 
@@ -130,9 +130,14 @@ public class Communicate {
         }
     }
 
-    public boolean isValidMoveRequest(String[] request, int pondID) {
+    private boolean is_valid_move_request(String[] request, int pondID) {
         return request.length == 3 && request[0].equals("move") &&
                 request[1].matches("[0-9]+") && request[2].matches("[0-9]+") &&
                 Integer.parseInt(request[2]) == pondID;
     }
+
+    public boolean set_message_received(boolean messageReceived) {
+        return this.messageReceived = messageReceived;
+    }
+
 }

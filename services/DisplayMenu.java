@@ -3,7 +3,7 @@ package services;
 import fishes.*;
 
 public class DisplayMenu {
-    public void displayMainMenu() {
+    public static void display_main_menu() {
         System.out.println("1. Add Fish");
         System.out.println("2. Remove Fish");
         System.out.println("3. Move Fish");
@@ -12,7 +12,7 @@ public class DisplayMenu {
         System.out.println("6. Exit");
     }
 
-    public void addFishMenu() {
+    public void add_fish_menu() {
         System.out.print("Please select fish type: \n");
         System.out.println("Type 1)\n");
         BubbleFish bubbleFish = new BubbleFish(0, 0, 0);
