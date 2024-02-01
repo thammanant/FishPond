@@ -119,9 +119,9 @@ public class Communicate {
 
                 String ans = ansForRequest.nextLine();
                 if (ans.equalsIgnoreCase("Y")) {
-                    Fish_old.ack_fish(Integer.parseInt(request[1]), Integer.parseInt(request[2]), this.portNumber, "acpt");
+                    ack_fish(Integer.parseInt(request[1]), Integer.parseInt(request[2]), this.portNumber, "acpt");
                 } else if (ans.equalsIgnoreCase("N")) {
-                    Fish_old.ack_fish(Integer.parseInt(request[1]), Integer.parseInt(request[2]), this.portNumber, "rej");
+                    ack_fish(Integer.parseInt(request[1]), Integer.parseInt(request[2]), this.portNumber, "rej");
                 }
             } else {
                 System.out.println("Message not for this pond");
