@@ -23,76 +23,11 @@ public class StartUp {
     }
 
     public void start() {
-        Scanner input = new Scanner(System.in);
-        Scanner removeId = new Scanner(System.in);
-        Scanner FishIdFormove = new Scanner(System.in);
-        Scanner PondIdFormove = new Scanner(System.in);
-//        Scanner PortForMove = new Scanner(System.in);
-        Scanner ansForRequest = new Scanner(System.in);
         System.out.println("Pond ID: " + pondID);
         System.out.println("Starting server" );
         Thread serverThread = new Thread(() -> MulticastServer.run_server(portNumber));
         serverThread.start();
-        // Set up a timer to update and write the clock every second
-//        Timer timer = new Timer();
-//        timer.scheduleAtFixedRate(new TimerTask() {
-//            @Override
-//            public void run() {
-//                // Update the clock and display the new content
-//                clock = clock + 1;
-//                // Write the updated content back to the file
-//                writeClockFile(clock);
-//            }
-//        }, 1000, 1000); // Delay 1 second, repeat every 1 second
-//        while (true) {
-//            // handle crash
-//            Signal.handle(new Signal("INT"), new EventHandler.ExSignalHandler());
-//            Signal.handle(new Signal("TERM"), new EventHandler.ExSignalHandler());
-//            Signal.handle(new Signal("HUP"), new EventHandler.ExSignalHandler());
-//
-//
-//            handleReceivedMessages(ansForRequest);
-//
-//            if (!messageReceived) {
-//                displayMenu();
-//            }
-//
-//            try {
-//                Integer userChoice = input.nextInt();
-//                if (userChoice == 1) {
-//                    Fish_old.add_fish();
-//                } else if (userChoice == 2) {
-//                    System.out.println("Enter ID of fish to remove: ");
-//                    Integer idForRemove = removeId.nextInt();
-//                    Fish_old.remove_fish(idForRemove);
-//                } else if (userChoice == 3) {
-//                    Fish_old.draw_fish_fromDB();
-//                } else if (userChoice == 4) {
-//                    System.out.println("Enter ID of fish to move: ");
-//                    Integer idForMove = FishIdFormove.nextInt();
-//                    System.out.println("Enter ID of pond to move to: ");
-//                    Integer pondForMove = PondIdFormove.nextInt();
-//                    Fish_old.move_fish(idForMove,pondForMove,portNumber);
-//                } else if (userChoice == 5) {
-//                    Shutdown.display_shutdown_menu();
-//                }
-//                else if (userChoice == 6) {
-//                    EventHandler.ExtendedSystemReport.generate_system_report();
-//                }
-//                else if (userChoice == 7) {
-//                    EventHandler.FishPondReport.generate_fishpond_report();
-//                }
-//                else {
-//                    System.out.println("Invalid input");
-//                    System.out.println();
-//                }
-//            } catch (Exception e) {
-//                System.out.println("Invalid input");
-//                input.nextLine(); // Clear the buffer
-//            } finally {
-//                messageReceived = false;
-//            }
-//        }
+        
     }
 
     private static void handleReceivedMessages(Scanner ansForRequest) {

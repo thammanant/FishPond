@@ -32,8 +32,5 @@ public abstract class Fish {
 
     abstract String[] get_fish_image();
 
-    void remove(int id){
-        Database.remove_fish_fromDB(id);
-        System.out.println("Fish id: " + id + " removed");
-    }
+    
 }

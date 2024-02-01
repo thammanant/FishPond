@@ -21,7 +21,7 @@ public class Communicate {
         this.pondID = pondID;
         this.portNumber = portNumber;
     }
-    public void move(int fishID, int pondID, int port){
+    public static void move(int fishID, int pondID, int port){
         // call multicast client
         MulticastClient client = new MulticastClient(port);
         try {
