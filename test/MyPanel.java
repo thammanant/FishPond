@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
 
-import services.database;
+import services.Database;
 
 public class MyPanel extends JPanel implements ActionListener {
     
@@ -47,7 +47,7 @@ public class MyPanel extends JPanel implements ActionListener {
         background = new ImageIcon("test\\aqua.jpg").getImage();
         timer = new Timer(10,this);
         timer.start();
-        JSONArray fishlist = database.readFishFromDB();
+        JSONArray fishlist = Database.read_fish_fromDB();
         fishPosition = new int[fishlist.size()][3];
         Random random = new Random();
         for (int i = 0; i < fishlist.size(); i++) {
@@ -63,7 +63,7 @@ public class MyPanel extends JPanel implements ActionListener {
 
         Graphics2D g2D = (Graphics2D) g;
         g2D.drawImage(background,0,0,null);
-        JSONArray fishlist = database.readFishFromDB();
+        JSONArray fishlist = Database.read_fish_fromDB();
         int i = 0;
         for(Object o : fishlist){
             JSONObject fish = (JSONObject) o;
