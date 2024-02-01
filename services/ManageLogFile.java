@@ -85,9 +85,9 @@ public class ManageLogFile {
                 String msg = fields[4];
 
                 if ("move".equals(command)) {
-                    Fish.move_fish(fishID, pondID, 12345);
+                    Fish_old.move_fish(fishID, pondID, 12345);
                 } else if ("ack".equals(command) && "acpt".equals(msg)) {
-                    Fish.ack_fish(fishID, pondID, 12345, "acpt");
+                    Fish_old.ack_fish(fishID, pondID, 12345, "acpt");
                 }
 
                 currentLine++;
