@@ -31,7 +31,7 @@ public class Pond {
             // handle crash
             Signal.handle(new Signal("INT"), new EventHandler.ExSignalHandler());
             Signal.handle(new Signal("TERM"), new EventHandler.ExSignalHandler());
-            Signal.handle(new Signal("HUP"), new EventHandler.ExSignalHandler());
+            // Signal.handle(new Signal("HUP"), new EventHandler.ExSignalHandler());
             Communicate communicate = new Communicate(this.pondID, 12345);
             communicate.handle_received_messages(ansForRequest);
             if (!communicate.messageReceived) {
