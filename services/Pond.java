@@ -2,7 +2,7 @@ package services;
 
 import org.json.simple.JSONArray;
 import sun.misc.Signal;
-import test.MyFrame;
+import animation.MyFrame;
 
 import java.util.Scanner;
 
