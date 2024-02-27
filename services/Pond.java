@@ -2,6 +2,7 @@ package services;
 
 import org.json.simple.JSONArray;
 import sun.misc.Signal;
+import test.MyFrame;
 
 import java.util.Scanner;
 
@@ -40,19 +41,19 @@ public class Pond {
             try {
                 Integer userChoice = input.nextInt();
                 if (userChoice == 1) {
-                    Fish_old.add_fish();
+                    DisplayMenu.add_fish_menu();
                 } else if (userChoice == 2) {
                     System.out.println("Enter ID of fish to remove: ");
                     Integer idForRemove = removeId.nextInt();
-                    Fish_old.remove_fish(idForRemove);
+                    Remove.remove_fish_by_id(idForRemove);
                 } else if (userChoice == 3) {
-                    Fish_old.draw_fish_fromDB();
+                    new MyFrame();
                 } else if (userChoice == 4) {
                     System.out.println("Enter ID of fish to move: ");
                     Integer idForMove = FishIdFormove.nextInt();
                     System.out.println("Enter ID of pond to move to: ");
                     Integer pondForMove = PondIdFormove.nextInt();
-                    Fish_old.move_fish(idForMove,pondForMove,portNumber);
+                    Communicate.move(idForMove, pondForMove,portNumber);
                 } else if (userChoice == 5) {
                     Shutdown.display_shutdown_menu();
                 }

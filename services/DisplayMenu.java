@@ -1,10 +1,12 @@
 package services;
 
+import java.util.Scanner;
+
 import fishes.*;
 
 public class DisplayMenu {
 
-    public void display_main_menu() {
+    public static void display_main_menu() {
         System.out.println("1. Add fish");
         System.out.println("2. Remove fish");
         System.out.println("3. Draw fish pond");
@@ -15,7 +17,7 @@ public class DisplayMenu {
 
     }
 
-    public void add_fish_menu() {
+    public static void add_fish_menu() {
         System.out.print("Please select fish type: \n");
         System.out.println("Type 1)\n");
         BubbleFish bubbleFish = new BubbleFish(0, 0, 0);
@@ -32,6 +34,44 @@ public class DisplayMenu {
         System.out.println("Type 5)\n");
         PufferFish pufferFish = new PufferFish(0, 0, 0);
         pufferFish.draw();
+        Scanner input = new Scanner(System.in);
+        System.out.print("Enter fish type: ");
+        String userChoice = input.nextLine();
+
+        switch(userChoice){
+            case "1":
+                System.out.println("You have selected bubble fish");
+                bubbleFish.draw();
+                bubbleFish.create();
+                break;
+            case "2":
+                System.out.println("You have selected shark");
+                shark.draw();
+                shark.create();
+                break;
+            case "3":
+                System.out.println("You have selected triangle fish");
+                triangleFish.draw();
+                triangleFish.create();
+                break;
+            case "4":
+                System.out.println("You have selected seahorse");
+                seahorse.draw();
+                seahorse.create();
+                break;
+            case "5":
+                System.out.println("You have selected pufflefish");
+                pufferFish.draw();
+                pufferFish.create();
+                break;
+            case "exit":
+                System.out.println("Quitting...");
+                break;
+            default:
+                System.out.println("Invalid input, please type number between 1-5");
+                return;
+        }
+
     }
 
 

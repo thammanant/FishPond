@@ -1,9 +1,10 @@
+import services.Pond;
 import services.StartUp;
 
 public class Main {
     public static void main(String[] args) {
-        StartUp start = new StartUp(0);
+        Pond pond = new Pond(2);
         // eventHandler.redoList();
-        start.start();
+        pond.start();
     }
 }
