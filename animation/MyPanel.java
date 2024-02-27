@@ -1,4 +1,4 @@
-package test;
+package animation;
 
 import javax.swing.*;
 
@@ -38,13 +38,13 @@ public class MyPanel extends JPanel implements ActionListener {
     MyPanel(){
         this.setPreferredSize(new Dimension(Panel_Width, Panel_Height));
         this.setBackground(Color.black);
-        bubble_fish_right = new ImageIcon("FishImage\\bubbleFish_right.png").getImage();
-        shark_right = new ImageIcon("FishImage\\shark_right.png").getImage();
-        triangle_fish_right = new ImageIcon("FishImage\\Triangle_fish_right.png").getImage();
-        seahorse_right = new ImageIcon("FishImage\\sea_horse_right.png").getImage();
-        pufflefish_right = new ImageIcon("FishImage\\Puffer_fish_right.png").getImage();
+        bubble_fish_right = new ImageIcon("bubbleFish_right.png").getImage();
+        shark_right = new ImageIcon("shark_right.png").getImage();
+        triangle_fish_right = new ImageIcon("Triangle_fish_right.png").getImage();
+        seahorse_right = new ImageIcon("sea_horse_right.png").getImage();
+        pufflefish_right = new ImageIcon("Puffer_fish_right.png").getImage();
 
-        background = new ImageIcon("animation\\aqua.jpg").getImage();
+        background = new ImageIcon("aqua.jpg").getImage();
         timer = new Timer(10,this);
         timer.start();
         JSONArray fishlist = Database.read_fish_fromDB();
@@ -72,23 +72,23 @@ public class MyPanel extends JPanel implements ActionListener {
             switch (fishType) {
                 case 1:
                     g2D.drawImage(bubble_fish_right,fishPosition[i][0],fishPosition[i][1],null);
-                    System.out.println(x);
+
                     break;
                 case 2:
                     g2D.drawImage(shark_right,fishPosition[i][0],fishPosition[i][1],null);
-                    System.out.println(x);
+
                     break;
                 case 3:
                     g2D.drawImage(triangle_fish_right,fishPosition[i][0],fishPosition[i][1],null);
-                    System.out.println(x);
+
                     break;
                 case 4:
                     g2D.drawImage(seahorse_right,fishPosition[i][0],fishPosition[i][1],null);
-                    System.out.println(x);
+
                     break;
                 case 5:
                     g2D.drawImage(pufflefish_right,fishPosition[i][0],fishPosition[i][1],null);
-                    System.out.println(x);
+
                     break;
             
                 default:
@@ -114,20 +114,20 @@ public class MyPanel extends JPanel implements ActionListener {
         for(int i = 0; i < fishPosition.length; i++){
             if(fishPosition[i][0] > Panel_Width - 90){
                 xVelocity = xVelocity * -1;
-                bubble_fish_right = new ImageIcon("FishImage\\bubbleFish_left.png").getImage();
-                shark_right = new ImageIcon("FishImage\\shark_left.png").getImage();
-                triangle_fish_right = new ImageIcon("FishImage\\Triangle_fish_left.png").getImage();
-                seahorse_right = new ImageIcon("FishImage\\sea_horse_left.png").getImage();
-                pufflefish_right = new ImageIcon("FishImage\\Puffer_fish_left.png").getImage();
+                bubble_fish_right = new ImageIcon("bubbleFish_left.png").getImage();
+                shark_right = new ImageIcon("shark_left.png").getImage();
+                triangle_fish_right = new ImageIcon("Triangle_fish_left.png").getImage();
+                seahorse_right = new ImageIcon("sea_horse_left.png").getImage();
+                pufflefish_right = new ImageIcon("Puffer_fish_left.png").getImage();
                 
             }
             else if (fishPosition[i][0]<0){
                 xVelocity = xVelocity * -1;
-                bubble_fish_right = new ImageIcon("FishImage\\bubbleFish_right.png").getImage();
-                shark_right = new ImageIcon("FishImage\\shark_right.png").getImage();
-                triangle_fish_right = new ImageIcon("FishImage\\Triangle_fish_right.png").getImage();
-                seahorse_right = new ImageIcon("FishImage\\sea_horse_right.png").getImage();
-                pufflefish_right = new ImageIcon("FishImage\\Puffer_fish_right.png").getImage();
+                bubble_fish_right = new ImageIcon("bubbleFish_right.png").getImage();
+                shark_right = new ImageIcon("shark_right.png").getImage();
+                triangle_fish_right = new ImageIcon("Triangle_fish_right.png").getImage();
+                seahorse_right = new ImageIcon("sea_horse_right.png").getImage();
+                pufflefish_right = new ImageIcon("Puffer_fish_right.png").getImage();
             }
             else if(fishPosition[i][1] > Panel_Height || fishPosition[i][1] < 30){
                 yVelocity = yVelocity * -1;

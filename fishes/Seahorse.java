@@ -33,7 +33,7 @@ public class Seahorse extends Fish{
         public void create() {
             Random random = new Random();
             while (Database.check_fish_id(this.id)) {
-                this.id = random.nextInt(10);
+                this.id = random.nextInt(100);
             }
             Database.add_fish_toDB(this.id, this.type);
         }
