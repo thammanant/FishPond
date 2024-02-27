@@ -1,5 +1,4 @@
-package test;
-import java.awt.*;
+package animation;
 import javax.swing.*;
 
 
