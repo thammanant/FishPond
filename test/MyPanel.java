@@ -44,7 +44,7 @@ public class MyPanel extends JPanel implements ActionListener {
         seahorse_right = new ImageIcon("FishImage\\sea_horse_right.png").getImage();
         pufflefish_right = new ImageIcon("FishImage\\Puffer_fish_right.png").getImage();
 
-        background = new ImageIcon("test\\aqua.jpg").getImage();
+        background = new ImageIcon("animation\\aqua.jpg").getImage();
         timer = new Timer(10,this);
         timer.start();
         JSONArray fishlist = Database.read_fish_fromDB();
