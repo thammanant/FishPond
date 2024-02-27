@@ -1,4 +1,4 @@
-package test;
+package animation;
 
 import javax.swing.*;
 
