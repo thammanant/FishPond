@@ -27,17 +27,17 @@ public class ManageLogFile {
             return null; // Failed to read the log file
         }
     }
-    public static boolean write_to_log(String command, Integer fishID, Integer pondID, Integer clock) {
-        return write_to_log(command, fishID, pondID, clock, null); // Call the main function with default msg
+    public static boolean write_to_log(String command, Integer fishID, Integer fishType, Integer genesisPondID, Integer pondID, Integer clock) {
+        return write_to_log(command, fishID, fishType,genesisPondID ,pondID, clock, null); // Call the main function with default msg
     }
 
-    public static boolean write_to_log(String command, Integer fishID, Integer pondID, Integer clock, String msg) {
+    public static boolean write_to_log(String command, Integer fishID, Integer fishType, Integer genesisPondID, Integer pondID, Integer clock, String msg) {
         try {
             FileWriter fileWriter = new FileWriter(logFile, true); // true for appending to the file
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
             // Construct the log message
-            String logMessage = String.format("%s, %d, %d, %d, %s\n", command, fishID, pondID, clock, msg);
+            String logMessage = String.format("%s, %d, %d, %d, %d, %d", command, fishID, fishType, genesisPondID, pondID, clock);
 
             bufferedWriter.write(logMessage);
             bufferedWriter.close();

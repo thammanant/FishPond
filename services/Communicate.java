@@ -17,24 +17,24 @@ public class Communicate {
 
     int portNumber;
 
-    public Communicate(int pornID, int portNumber) {
+    public Communicate(int pondID, int portNumber) {
         this.pondID = pondID;
         this.portNumber = portNumber;
     }
-    public static void move(int fishID, int pondID, int port){
+    public static void move(int fishID, int fishType, int genesisPondID, int pondID, int port){
         // call multicast client
         MulticastClient client = new MulticastClient(port);
         try {
             while (true) {
-                client.send_multicast_message("move," + fishID + "," + pondID);
+                client.send_multicast_message("move," + fishID + "," + fishType + "," + pondID + "," + pondID);
                 // get response from server
                 String response = MulticastServer.get_received_messages();
-                ManageLogFile.write_to_log("move", fishID, pondID, Clock.get_current_clock());
-                if (response.equals("ack," + fishID + "," + pondID + "acpt")){ // if accepted
+                ManageLogFile.write_to_log("move", fishID,fishType, pondID, pondID, Clock.get_current_clock());
+                if (response.equals("ack," + fishID + "," + fishType + "," + genesisPondID + "," + pondID + "," + "acpt")){ // if accepted
                     Database.remove_fish_fromDB(fishID);
                     break;
                 }
-                else if (response.equals("ack," + fishID + "," + pondID + "rej")){ // if rejected
+                else if (response.equals("ack," + fishID + "," + fishType + "," + genesisPondID + "," + pondID + "," + "rej")){ // if rejected
                     System.out.println("Fish rejected");
                     break;
                 }
@@ -47,7 +47,7 @@ public class Communicate {
         }
     }
 
-    public void ack_fish(int fishID, int pondID, int port, String status){
+    public void ack_fish(int fishID,int fishType, int genesisPondID , int pondID, int port, String status){
         // status must only be acpt for accept or rej for reject
         if (!Objects.equals(status, "acpt") && !Objects.equals(status, "rej")){
             System.out.println("Invalid status");
@@ -57,12 +57,11 @@ public class Communicate {
         MulticastClient client = new MulticastClient(port);
         try {
             if(status.equals("acpt")) {
-                write_to_log("ack", fishID, pondID, Clock.get_current_clock(), status);
+                write_to_log("ack", fishID, fishType, genesisPondID, pondID, Clock.get_current_clock(), status);
                 //check fish within database
                 JSONArray fishList = Database.read_fish_fromDB();
                 for (Object o : fishList) {
                     JSONObject fish = (JSONObject) o;
-                    int fishType = 4;
                     int fishid = Integer.parseInt((String) fish.get("fishid"));
                     if (fishid == fishID) {
                         System.out.println("Fish already added");
@@ -75,7 +74,7 @@ public class Communicate {
             else{
                 System.out.println("Fish rejected");
             }
-            client.send_multicast_message("ack," + fishID + "," + pondID + "," + status);
+            client.send_multicast_message("ack," + fishID + "," + fishType + "," + genesisPondID + "," + pondID + "," + status);
             System.out.println("Ack sent");
         } catch (IOException e) {
             e.printStackTrace();
