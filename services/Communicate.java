@@ -87,10 +87,13 @@ public class Communicate {
 
     public void handle_received_messages(Scanner ansForRequest) {
         String messages = MulticastServer.get_received_messages();
+        String[] messagesParts = messages.split("\n");
         if (!messages.isEmpty()) {
-            this.process_received_messages(messages, ansForRequest);
-            this.messageReceived = true;
-            MulticastServer.clear_received_messages();
+            for (String message : messagesParts) {
+                this.process_received_messages(message, ansForRequest);
+                this.messageReceived = true;
+                MulticastServer.clear_received_messages();
+            }
         }
 
         if (this.messageReceived) {
@@ -110,10 +113,6 @@ public class Communicate {
         if (messages.toLowerCase().contains("move")) {
             String[] request = messages.toLowerCase().split("\\s*,\\s*");
 
-//            for (Integer i = 0; i < request.length; i++) {
-//                request[i] = request[i].replaceAll("\\s+", "");
-//                System.out.println(request[i]);
-//            }
             //print request length
             System.out.println("Length: " + request.length);
             //print request
@@ -131,10 +130,25 @@ public class Communicate {
                 } else if (ans.equalsIgnoreCase("N")) {
                     ack_fish(Integer.parseInt(request[1]),Integer.parseInt(request[2]),Integer.parseInt(request[3]) , Integer.parseInt(request[4].trim()),  this.portNumber, "rej");
                 }
-            } else {
-                System.out.println("Message not for this pond");
             }
         }
+        if (messages.toLowerCase().contains("ack")) {
+            String[] request = messages.toLowerCase().split("\\s*,\\s*");
+            if (is_valid_ack_request(request, this.pondID)) {
+                if(request[5].trim().equals("acpt")){
+                    Database.remove_fish_fromDB(Integer.parseInt(request[1]));
+                    System.out.println("Your fish has been added to the pond.");
+                }
+                else if(request[5].trim().equals("rej")){
+                    System.out.println("Your fish has been rejected.");
+                }
+            }
+        }
+    }
+
+    private boolean is_valid_ack_request(String[] request, int pondID) {
+        return ((request.length == 6) && (request[0].equals("ack")) &&
+                (request[4].matches("[0-9]+")) && (Integer.parseInt(request[4].trim()) == pondID));
     }
 
     private boolean is_valid_move_request(String[] request, int pondID) {

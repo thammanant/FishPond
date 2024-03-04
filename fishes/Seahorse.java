@@ -32,6 +32,7 @@ public class Seahorse extends Fish{
         @Override
         public void create(int pondID) {
             Random random = new Random();
+            this.id = random.nextInt(100);
             while (Database.check_fish_id(this.id)) {
                 this.id = random.nextInt(100);
             }
