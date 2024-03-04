@@ -16,7 +16,7 @@ public abstract class Fish {
 
     abstract void draw();
 
-    abstract void create();
+    abstract void create(int pondID);
 
     abstract void set_coordinates(int x, int y);
 

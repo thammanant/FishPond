@@ -47,7 +47,7 @@ public class Communicate {
         }
     }
 
-    public void ack_fish(int fishID,int fishType, int genesisPondID , int pondID, int port, String status){
+    public static void ack_fish(int fishID,int fishType, int genesisPondID , int pondID, int port, String status){
         // status must only be acpt for accept or rej for reject
         if (!Objects.equals(status, "acpt") && !Objects.equals(status, "rej")){
             System.out.println("Invalid status");
@@ -66,7 +66,7 @@ public class Communicate {
                     if (fishid == fishID) {
                         System.out.println("Fish already added");
                     } else {
-                        Database.add_fish_from_other_pond(fishID, fishType);
+                        Database.add_fish_from_other_pond(fishID, fishType, genesisPondID);
                         System.out.println("Fish added");
                     }
                 }
@@ -138,8 +138,8 @@ public class Communicate {
         this.messageReceived = messageReceived;
     }
 
-    public static Integer get_fish_type(int fishID) {
-        return Database.get_fish_type(fishID);
+    public static Integer[] get_fish_info(int fishid) {
+        return Database.get_fish_info(fishid);
     }
 
 }

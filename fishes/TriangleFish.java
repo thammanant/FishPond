@@ -28,12 +28,12 @@ public class TriangleFish extends Fish{
         }
 
         @Override
-        public void create() {
+        public void create(int pondID) {
             Random random = new Random();
             while (Database.check_fish_id(this.id)) {
                 this.id = random.nextInt(100);
             }
-            Database.add_fish_toDB(this.id, this.type);
+            Database.add_fish_toDB(this.id, this.type, pondID);
         }
 
         @Override

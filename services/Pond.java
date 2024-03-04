@@ -41,7 +41,8 @@ public class Pond {
             try {
                 Integer userChoice = input.nextInt();
                 if (userChoice == 1) {
-                    DisplayMenu.add_fish_menu();
+                    DisplayMenu displayMenu = new DisplayMenu(this.pondID);
+                    displayMenu.add_fish_menu();
                 } else if (userChoice == 2) {
                     System.out.println("Enter ID of fish to remove: ");
                     Integer idForRemove = removeId.nextInt();
@@ -51,10 +52,10 @@ public class Pond {
                 } else if (userChoice == 4) {
                     System.out.println("Enter ID of fish to move: ");
                     Integer idForMove = FishIdFormove.nextInt();
-                    Integer fishType = Communicate.get_fish_type(idForMove);
                     System.out.println("Enter ID of pond to move to: ");
                     Integer pondForMove = PondIdFormove.nextInt();
-                    Communicate.move(idForMove,fishType,this.pondID, pondForMove,portNumber);
+                    Integer[] fishInfo = Communicate.get_fish_info(idForMove);
+                    Communicate.move(idForMove,fishInfo[0],fishInfo[1], pondForMove,portNumber);
                 } else if (userChoice == 5) {
                     Shutdown.display_shutdown_menu();
                 }

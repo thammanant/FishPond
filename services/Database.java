@@ -11,11 +11,12 @@ import org.json.simple.parser.ParseException;
 public class Database {
     private static final String path = "fish.json";
 
-    public static void add_fish_toDB(int fishid, int fishType) {
+    public static void add_fish_toDB(int fishid, int fishType, int genesisPondID) {
         JSONArray fishList = read_fish_fromDB();
         JSONObject obj = new JSONObject();
         obj.put("fishid", String.valueOf(fishid));
         obj.put("fishType", String.valueOf(fishType));
+        obj.put("genesisPondID", String.valueOf(genesisPondID));
         fishList.add(obj);
 
         try {
@@ -28,8 +29,8 @@ public class Database {
         System.out.println("JSON file created: " + obj);
     }
 
-    public static void add_fish_from_other_pond(int fishID, int fishType){
-        Database.add_fish_toDB(fishID, fishType);
+    public static void add_fish_from_other_pond(int fishID, int fishType, int genesisPondID){
+        Database.add_fish_toDB(fishID, fishType, genesisPondID);
     }
 
 
@@ -74,15 +75,16 @@ public class Database {
         return false;
     }
 
-    public static Integer get_fish_type(int fishid) {
+    //get fish info by id as array
+    public static Integer[] get_fish_info(int fishid) {
         JSONArray fishList = read_fish_fromDB();
         for (Object o : fishList) {
             JSONObject fish = (JSONObject) o;
             if (fish.get("fishid").equals(String.valueOf(fishid))) {
-                return Integer.parseInt((String) fish.get("fishType"));
+                return new Integer[]{Integer.parseInt((String) fish.get("fishType")), Integer.parseInt((String) fish.get("genesisPondID"))};
             }
         }
-        return -1;
+        return new Integer[]{};
     }
 
 }
