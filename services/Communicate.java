@@ -117,10 +117,12 @@ public class Communicate {
                 System.out.println("Would you like to accept? (Y/N)");
 
                 String ans = ansForRequest.nextLine();
+                Integer fishID = Communicate.get_fish_info(Integer.parseInt(request[1]))[0];
+                Integer genesisPondID = Communicate.get_fish_info(Integer.parseInt(request[1]))[1];
                 if (ans.equalsIgnoreCase("Y")) {
-                    Fish_old.ack_fish(Integer.parseInt(request[1]), Integer.parseInt(request[2]), this.portNumber, "acpt");
+                    ack_fish(Integer.parseInt(request[1]), fishID, genesisPondID, Integer.parseInt(request[2]), this.portNumber, "acpt");
                 } else if (ans.equalsIgnoreCase("N")) {
-                    Fish_old.ack_fish(Integer.parseInt(request[1]), Integer.parseInt(request[2]), this.portNumber, "rej");
+                    ack_fish(Integer.parseInt(request[1]), fishID, genesisPondID, Integer.parseInt(request[2]),  this.portNumber, "rej");
                 }
             } else {
                 System.out.println("Message not for this pond");

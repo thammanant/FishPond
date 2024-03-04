@@ -64,11 +64,14 @@ public class StartUp {
                 System.out.println("New incoming fish");
                 System.out.println("Would you like to accept? (Y/N)");
 
+                Integer fishID = Communicate.get_fish_info(Integer.parseInt(request[1]))[0];
+                Integer genesisPondID = Communicate.get_fish_info(Integer.parseInt(request[1]))[1];
+
                 String ans = ansForRequest.nextLine();
                 if (ans.equalsIgnoreCase("Y")) {
-                    Fish_old.ack_fish(Integer.parseInt(request[1]), Integer.parseInt(request[2]), portNumber, "acpt");
+                    Communicate.ack_fish(Integer.parseInt(request[1]), fishID, genesisPondID, Integer.parseInt(request[2]), portNumber, "acpt");
                 } else if (ans.equalsIgnoreCase("N")) {
-                    Fish_old.ack_fish(Integer.parseInt(request[1]), Integer.parseInt(request[2]), portNumber, "rej");
+                    Communicate.ack_fish(Integer.parseInt(request[1]), fishID, genesisPondID, Integer.parseInt(request[2]), portNumber, "rej");
                 }
             } else {
                 System.out.println("Message not for this pond");
