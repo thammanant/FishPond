@@ -26,10 +26,10 @@ public class Communicate {
         MulticastClient client = new MulticastClient(port);
         try {
             while (true) {
-                client.send_multicast_message("move," + fishID + "," + fishType + "," + pondID + "," + pondID);
+                client.send_multicast_message("move," + fishID + "," + fishType + "," + genesisPondID + "," + pondID);
                 // get response from server
                 String response = MulticastServer.get_received_messages();
-                ManageLogFile.write_to_log("move", fishID,fishType, pondID, pondID, Clock.get_current_clock());
+                ManageLogFile.write_to_log("move", fishID,fishType, genesisPondID, pondID, Clock.get_current_clock());
                 if (response.equals("ack," + fishID + "," + fishType + "," + genesisPondID + "," + pondID + "," + "acpt")){ // if accepted
                     Database.remove_fish_fromDB(fishID);
                     break;
@@ -131,9 +131,9 @@ public class Communicate {
     }
 
     private boolean is_valid_move_request(String[] request, int pondID) {
-        return request.length == 3 && request[0].equals("move") &&
+        return request.length == 5 && request[0].equals("move") &&
                 request[1].matches("[0-9]+") && request[2].matches("[0-9]+") &&
-                Integer.parseInt(request[2]) == pondID;
+                Integer.parseInt(request[4]) == pondID;
     }
 
     public void set_message_received(boolean messageReceived) {
