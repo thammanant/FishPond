@@ -65,17 +65,20 @@ public class Communicate {
                     int fishid = Integer.parseInt((String) fish.get("fishid"));
                     if (fishid == fishID) {
                         System.out.println("Fish already added");
-                    } else {
+                    }
+                    else{
                         Database.add_fish_from_other_pond(fishID, fishType, genesisPondID);
                         System.out.println("Fish added");
+                        client.send_multicast_message("ack," + fishID + "," + fishType + "," + genesisPondID + "," + pondID + "," + status + "\n");
+                        System.out.println("Ack sent");
+                        break;
                     }
                 }
             }
             else{
                 System.out.println("Fish rejected");
             }
-            client.send_multicast_message("ack," + fishID + "," + fishType + "," + genesisPondID + "," + pondID + "," + status + "\n");
-            System.out.println("Ack sent");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -107,8 +110,14 @@ public class Communicate {
         if (messages.toLowerCase().contains("move")) {
             String[] request = messages.toLowerCase().split("\\s*,\\s*");
 
+//            for (Integer i = 0; i < request.length; i++) {
+//                request[i] = request[i].replaceAll("\\s+", "");
+//                System.out.println(request[i]);
+//            }
+            //print request length
+            System.out.println("Length: " + request.length);
+            //print request
             for (Integer i = 0; i < request.length; i++) {
-                request[i] = request[i].replaceAll("\\s+", "");
                 System.out.println(request[i]);
             }
 
@@ -117,12 +126,10 @@ public class Communicate {
                 System.out.println("Would you like to accept? (Y/N)");
 
                 String ans = ansForRequest.nextLine();
-                Integer fishID = Communicate.get_fish_info(Integer.parseInt(request[1]))[0];
-                Integer genesisPondID = Communicate.get_fish_info(Integer.parseInt(request[1]))[1];
                 if (ans.equalsIgnoreCase("Y")) {
-                    ack_fish(Integer.parseInt(request[1]), fishID, genesisPondID, Integer.parseInt(request[2]), this.portNumber, "acpt");
+                    ack_fish(Integer.parseInt(request[1]), Integer.parseInt(request[2]),Integer.parseInt(request[3]) , Integer.parseInt(request[4].trim()), this.portNumber, "acpt");
                 } else if (ans.equalsIgnoreCase("N")) {
-                    ack_fish(Integer.parseInt(request[1]), fishID, genesisPondID, Integer.parseInt(request[2]),  this.portNumber, "rej");
+                    ack_fish(Integer.parseInt(request[1]),Integer.parseInt(request[2]),Integer.parseInt(request[3]) , Integer.parseInt(request[4].trim()),  this.portNumber, "rej");
                 }
             } else {
                 System.out.println("Message not for this pond");
@@ -133,7 +140,7 @@ public class Communicate {
     private boolean is_valid_move_request(String[] request, int pondID) {
         return ((request.length == 5) && (request[0].equals("move")) &&
                 (request[1].matches("[0-9]+")) && (request[2].matches("[0-9]+")) &&
-                (Integer.parseInt(request[4]) == pondID));
+                (Integer.parseInt(request[4].trim()) == pondID));
     }
 
     public void set_message_received(boolean messageReceived) {
