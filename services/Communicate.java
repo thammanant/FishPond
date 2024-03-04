@@ -29,16 +29,20 @@ public class Communicate {
                 client.send_multicast_message("move," + fishID + "," + fishType + "," + genesisPondID + "," + pondID + "\n");
                 // get response from server
                 String response = MulticastServer.get_received_messages();
+                String[] messagesParts = response.split("\n");
                 ManageLogFile.write_to_log("move", fishID,fishType, genesisPondID, pondID, Clock.get_current_clock());
-                if (response.equals("ack," + fishID + "," + fishType + "," + genesisPondID + "," + pondID + "," + "acpt")){ // if accepted
-                    Database.remove_fish_fromDB(fishID);
-                    break;
+                for(String message : messagesParts){
+                    if (message.equals("ack," + fishID + "," + fishType + "," + genesisPondID + "," + pondID + "," + "acpt")){ // if accepted
+                        Database.remove_fish_fromDB(fishID);
+                        System.out.println("Fish accepted");
+                        break;
+                    }
+                    else if (message.equals("ack," + fishID + "," + fishType + "," + genesisPondID + "," + pondID + "," + "rej")){ // if rejected
+                        System.out.println("Fish rejected");
+                        break;
+                    }
+                    Thread.sleep(1000);
                 }
-                else if (response.equals("ack," + fishID + "," + fishType + "," + genesisPondID + "," + pondID + "," + "rej")){ // if rejected
-                    System.out.println("Fish rejected");
-                    break;
-                }
-                Thread.sleep(1000);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -113,13 +117,6 @@ public class Communicate {
         if (messages.toLowerCase().contains("move")) {
             String[] request = messages.toLowerCase().split("\\s*,\\s*");
 
-            //print request length
-            System.out.println("Length: " + request.length);
-            //print request
-            for (Integer i = 0; i < request.length; i++) {
-                System.out.println(request[i]);
-            }
-
             if (is_valid_move_request(request,this.pondID)) {
                 System.out.println("New incoming fish");
                 System.out.println("Would you like to accept? (Y/N)");
@@ -132,24 +129,8 @@ public class Communicate {
                 }
             }
         }
-        if (messages.toLowerCase().contains("ack")) {
-            String[] request = messages.toLowerCase().split("\\s*,\\s*");
-            if (is_valid_ack_request(request, this.pondID)) {
-                if(request[5].trim().equals("acpt")){
-                    Database.remove_fish_fromDB(Integer.parseInt(request[1]));
-                    System.out.println("Your fish has been added to the pond.");
-                }
-                else if(request[5].trim().equals("rej")){
-                    System.out.println("Your fish has been rejected.");
-                }
-            }
-        }
     }
 
-    private boolean is_valid_ack_request(String[] request, int pondID) {
-        return ((request.length == 6) && (request[0].equals("ack")) &&
-                (request[4].matches("[0-9]+")) && (Integer.parseInt(request[4].trim()) == pondID));
-    }
 
     private boolean is_valid_move_request(String[] request, int pondID) {
         return ((request.length == 5) && (request[0].equals("move")) &&
