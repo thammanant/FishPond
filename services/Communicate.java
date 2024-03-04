@@ -138,4 +138,8 @@ public class Communicate {
         this.messageReceived = messageReceived;
     }
 
+    public static Integer get_fish_type(int fishID) {
+        return Database.get_fish_type(fishID);
+    }
+
 }

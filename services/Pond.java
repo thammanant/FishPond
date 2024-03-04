@@ -51,9 +51,10 @@ public class Pond {
                 } else if (userChoice == 4) {
                     System.out.println("Enter ID of fish to move: ");
                     Integer idForMove = FishIdFormove.nextInt();
+                    Integer fishType = Communicate.get_fish_type(idForMove);
                     System.out.println("Enter ID of pond to move to: ");
                     Integer pondForMove = PondIdFormove.nextInt();
-                    Communicate.move(idForMove, pondForMove,portNumber);
+                    Communicate.move(idForMove,fishType,this.pondID, pondForMove,portNumber);
                 } else if (userChoice == 5) {
                     Shutdown.display_shutdown_menu();
                 }

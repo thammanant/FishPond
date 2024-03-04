@@ -74,4 +74,15 @@ public class Database {
         return false;
     }
 
+    public static Integer get_fish_type(int fishid) {
+        JSONArray fishList = read_fish_fromDB();
+        for (Object o : fishList) {
+            JSONObject fish = (JSONObject) o;
+            if (fish.get("fishid").equals(String.valueOf(fishid))) {
+                return Integer.parseInt((String) fish.get("fishType"));
+            }
+        }
+        return -1;
+    }
+
 }
