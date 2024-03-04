@@ -85,16 +85,7 @@ public class StartUp {
                 Integer.parseInt(request[2]) == pondID;
     }
 
-    private static void displayMenu() {
-        System.out.println("1: Add fish");
-        System.out.println("2: Remove fish");
-        System.out.println("3: Draw pond");
-        System.out.println("4: Move fish");
-        System.out.println("5: Shutdown");
-        System.out.println("6: System Report");
-        System.out.println("7: Pond Report");
-        System.out.print("Please enter your choice: ");
-    }
+
 
 
 

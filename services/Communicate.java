@@ -24,8 +24,9 @@ public class Communicate {
     public static void move(int fishID, int fishType, int genesisPondID, int pondID, int port){
         // call multicast client
         MulticastClient client = new MulticastClient(port);
+        boolean moveLoop = true;
         try {
-            while (true) {
+            while (moveLoop) {
                 client.send_multicast_message("move," + fishID + "," + fishType + "," + genesisPondID + "," + pondID + "\n");
                 // get response from server
                 String response = MulticastServer.get_received_messages();
@@ -35,10 +36,12 @@ public class Communicate {
                     if (message.equals("ack," + fishID + "," + fishType + "," + genesisPondID + "," + pondID + "," + "acpt")){ // if accepted
                         Database.remove_fish_fromDB(fishID);
                         System.out.println("Fish accepted");
+                        moveLoop = false;
                         break;
                     }
                     else if (message.equals("ack," + fishID + "," + fishType + "," + genesisPondID + "," + pondID + "," + "rej")){ // if rejected
                         System.out.println("Fish rejected");
+                        moveLoop = false;
                         break;
                     }
                     Thread.sleep(1000);
