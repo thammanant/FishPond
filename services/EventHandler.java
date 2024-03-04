@@ -151,7 +151,7 @@ public class EventHandler {
             System.out.println("""
                                     
                     Fish Pond Report
-                    =================== xxzx
+                    =================== 
                     """);
 
             // Print information for each fish

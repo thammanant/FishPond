@@ -84,10 +84,14 @@ public class ManageLogFile {
                 Integer pondID = Integer.parseInt(fields[2]);
                 String msg = fields[4];
 
+                Integer fishType = Communicate.get_fish_info(fishID)[0];
+                Integer genesisPondID = Communicate.get_fish_info(fishID)[1];
+
+
                 if ("move".equals(command)) {
-                    Fish_old.move_fish(fishID, pondID, 12345);
+                    Communicate.move(fishID, fishType, genesisPondID, pondID, 12345);
                 } else if ("ack".equals(command) && "acpt".equals(msg)) {
-                    Fish_old.ack_fish(fishID, pondID, 12345, "acpt");
+                    Communicate.ack_fish(fishID, fishType, genesisPondID, pondID, 12345, "acpt");
                 }
 
                 currentLine++;
