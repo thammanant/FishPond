@@ -83,11 +83,11 @@ public class ManageLogFile {
         for (int i = index; i < logEntries.length; i++) {
             String[] logEntry = logEntries[i].split(", ");
             String command = logEntry[0];
-            Integer fishID = Integer.parseInt(logEntry[1]);
-            Integer fishType = Integer.parseInt(logEntry[2]);
-            Integer genesisPondID = Integer.parseInt(logEntry[3]);
-            Integer pondID = Integer.parseInt(logEntry[4]);
-            Integer newClock = Integer.parseInt(logEntry[5]);
+            int fishID = Integer.parseInt(logEntry[1]);
+            int fishType = Integer.parseInt(logEntry[2]);
+            int genesisPondID = Integer.parseInt(logEntry[3]);
+            int pondID = Integer.parseInt(logEntry[4]);
+            int newClock = Integer.parseInt(logEntry[5]);
             String msg = logEntry.length == 7 ? logEntry[6] : null;
 
             if (command.equals("move")) {
@@ -109,9 +109,9 @@ public class ManageLogFile {
 
     private static Integer binary_search(Integer left, Integer right, Integer target) {
         if (right >= left) {
-            Integer mid = left + (right - left) / 2;
+            int mid = left + (right - left) / 2;
             String[] logEntry = Objects.requireNonNull(read_log()).split("\n")[mid].split(", ");
-            Integer clock = Integer.parseInt(logEntry[5]);
+            int clock = Integer.parseInt(logEntry[5]);
 
             if (clock == target) {
                 return mid;
