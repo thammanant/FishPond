@@ -20,9 +20,9 @@ public class StartUp {
     public static Integer clock = 0;
     public StartUp(Integer pondID) {
         this.pondID = pondID;
-        new File("fish.json");
-        new File("backup.txt");
-        new File("log.txt");
+        createIfNotExists("fish.json");
+        createIfNotExists("backup.txt");
+        createIfNotExists("log.txt");
     }
 
     public void start() {
@@ -156,5 +156,23 @@ public class StartUp {
 
     public static Integer getPortNumber() {
         return portNumber;
+    }
+
+    public static void createIfNotExists(String fileName) {
+        File file = new File(fileName);
+        if (!file.exists()) {
+            try {
+                if (file.createNewFile()) {
+                    System.out.println("File created: " + file.getName());
+                } else {
+                    System.out.println("Failed to create the file: " + file.getName());
+                }
+            } catch (IOException e) {
+                System.out.println("An error occurred while creating the file: " + file.getName());
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("File already exists: " + file.getName());
+        }
     }
 }

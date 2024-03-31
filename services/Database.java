@@ -34,6 +34,7 @@ public class Database {
     }
 
     public static void add_fish_from_other_pond(int fishID, int fishType, int genesisPondID){
+        ManageLogFile.write_to_log("add", fishID, fishType, genesisPondID, Clock.get_current_clock());
         Database.add_fish_toDB(fishID, fishType, genesisPondID);
     }
 

@@ -43,6 +43,7 @@ public class Pond {
                 } else if (userChoice == 2) {
                     System.out.println("Enter ID of fish to remove: ");
                     Integer idForRemove = removeId.nextInt();
+                    ManageLogFile.write_to_log("remove", idForRemove, Clock.get_current_clock());
                     Remove.remove_fish_by_id(idForRemove);
                 } else if (userChoice == 3) {
                     new MyFrame();

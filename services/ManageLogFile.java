@@ -24,12 +24,15 @@ public class ManageLogFile {
             bufferedReader.close();
             return log.toString(); // Successfully read the log file
         } catch (IOException e) {
-            e.printStackTrace();
             return null; // Failed to read the log file
         }
     }
-    public static boolean write_to_log(String command, Integer fishID, Integer fishType, Integer clock){
-        return write_to_log(command, fishID, fishType, null, null, clock, null);
+    public static boolean write_to_log(String command, Integer fishID, Integer clock){
+        return write_to_log(command, fishID, null, null, null, clock, null);
+    }
+
+    public static boolean write_to_log(String command, Integer fishID, Integer fishType, Integer genesisPondID, Integer clock){
+        return write_to_log(command, fishID, fishType, genesisPondID, null, clock, null);
     }
 
     public static boolean write_to_log(String command, Integer fishID, Integer fishType, Integer genesisPondID, Integer pondID, Integer clock) {
@@ -42,7 +45,7 @@ public class ManageLogFile {
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
             // Construct the log message
-            String logMessage = String.format("%s, %d, %d, %d, %d, %d, %s", command, fishID, fishType, genesisPondID, pondID, clock, msg);
+            String logMessage = String.format("%s, %d, %d, %d, %d, %d, %s \n", command, fishID, fishType, genesisPondID, pondID, clock, msg);
 
             bufferedWriter.write(logMessage);
             bufferedWriter.close();
@@ -67,7 +70,7 @@ public class ManageLogFile {
     public static void redo_task(Integer clock){
         // Read the log file
         String log = read_log();
-        if (log == null || log.isEmpty()) {
+        if(log == null || log.equals("")) {
             return;
         }
 
@@ -84,26 +87,23 @@ public class ManageLogFile {
             String[] logEntry = logEntries[i].split(", ");
             String command = logEntry[0];
             int fishID = Integer.parseInt(logEntry[1]);
-            int fishType = Integer.parseInt(logEntry[2]);
-            int pondID = Integer.parseInt(logEntry[4]);
+            int fishType = logEntry[2].equals("null") ? -1 : Integer.parseInt(logEntry[2]);
+            int pondID = logEntry[3].equals("null") ? -1 : Integer.parseInt(logEntry[3]);
             String msg = logEntry.length == 7 ? logEntry[6] : null;
 
-            if (command.equals("move")) {
+            switch (command) {
+                case "move" ->
 //                Communicate.move(fishID, fishType, genesisPondID, pondID, newClock);
-               System.out.println("Fish moved");
-            }
-            else if (command.equals("ack")) {
-                assert msg != null;
-                if (msg.equals("acpt")) {
-                    Database.add_fish_toDB(fishID, fishType, pondID);
+                        System.out.println("Fish moved");
+                case "ack" -> {
+                    assert msg != null;
+                    if (msg.equals("acpt")) {
+                        Database.add_fish_toDB(fishID, fishType, pondID);
 //                    System.out.println("Fish added to the database");
+                    }
                 }
-            }
-            else if (command.equals("add")) {
-                Database.add_fish_toDB(fishID, fishType, pondID);
-            }
-            else if (command.equals("remove")) {
-                Database.remove_fish_fromDB(fishID);
+                case "add" -> Database.add_fish_toDB(fishID, fishType, pondID);
+                case "remove" -> Database.remove_fish_fromDB(fishID);
             }
         }
         ManageLogFile.clear_log();
@@ -128,6 +128,6 @@ public class ManageLogFile {
             return binary_search(mid + 1, right, target);
         }
 
-        return -1;
+        return 0;
     }
 }

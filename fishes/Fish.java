@@ -1,6 +1,8 @@
 package fishes;
 
+import services.Clock;
 import services.Database;
+import services.ManageLogFile;
 
 import java.util.Random;
 
@@ -24,6 +26,7 @@ public abstract class Fish {
         while (Database.check_fish_id(this.id)) {
             this.id = random.nextInt(100);
         }
+        ManageLogFile.write_to_log("add", this.id, this.type, pondID, Clock.get_current_clock());
         Database.add_fish_toDB(this.id, this.type,pondID);
     }
 
