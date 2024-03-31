@@ -26,12 +26,12 @@ public class Communicate {
         MulticastClient client = new MulticastClient(port);
         boolean moveLoop = true;
         try {
+            ManageLogFile.write_to_log("move", fishID,fishType, genesisPondID, pondID, Clock.get_current_clock());
             while (moveLoop) {
                 client.send_multicast_message("move," + fishID + "," + fishType + "," + genesisPondID + "," + pondID + "\n");
                 // get response from server
                 String response = MulticastServer.get_received_messages();
                 String[] messagesParts = response.split("\n");
-                ManageLogFile.write_to_log("move", fishID,fishType, genesisPondID, pondID, Clock.get_current_clock());
                 for(String message : messagesParts){
                     if (message.equals("ack," + fishID + "," + fishType + "," + genesisPondID + "," + pondID + "," + "acpt")){ // if accepted
                         Database.remove_fish_fromDB(fishID);
