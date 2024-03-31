@@ -15,9 +15,6 @@ public class Pond {
         this.pondID = pondID;
     }
 
-
-
-
     public void start(){
         StartUp startUp = new StartUp(this.pondID);
         startUp.start();
