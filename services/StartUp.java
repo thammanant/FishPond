@@ -8,7 +8,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.lang.InterruptedException;
 import java.util.Scanner;
-import sun.misc.Signal;
 
 
 public class StartUp {
@@ -27,7 +26,7 @@ public class StartUp {
         System.out.println("Starting server" );
         Thread serverThread = new Thread(() -> MulticastServer.run_server(portNumber));
         serverThread.start();
-        
+        Backup.recover();
     }
 
     private static void handleReceivedMessages(Scanner ansForRequest) {
