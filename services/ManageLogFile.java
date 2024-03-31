@@ -63,7 +63,7 @@ public class ManageLogFile {
     public static void redo_task(Integer clock){
         // Read the log file
         String log = read_log();
-        if (log == null) {
+        if (log == null || log.isEmpty()) {
             return;
         }
 
@@ -75,24 +75,18 @@ public class ManageLogFile {
         Integer right = logEntries.length - 1;
         Integer index = binary_search(left, right, clock);
 
-        if (index == -1) {
-            return;
-        }
-
         // redo the tasks from the index
         for (int i = index; i < logEntries.length; i++) {
             String[] logEntry = logEntries[i].split(", ");
             String command = logEntry[0];
             int fishID = Integer.parseInt(logEntry[1]);
             int fishType = Integer.parseInt(logEntry[2]);
-            int genesisPondID = Integer.parseInt(logEntry[3]);
             int pondID = Integer.parseInt(logEntry[4]);
-            int newClock = Integer.parseInt(logEntry[5]);
             String msg = logEntry.length == 7 ? logEntry[6] : null;
 
             if (command.equals("move")) {
-                Communicate.move(fishID, fishType, genesisPondID, pondID, newClock);
-//                System.out.println("Fish moved");
+//                Communicate.move(fishID, fishType, genesisPondID, pondID, newClock);
+               System.out.println("Fish moved");
             } else if (command.equals("ack")) {
                 assert msg != null;
                 if (msg.equals("acpt")) {
