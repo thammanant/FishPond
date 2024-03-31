@@ -28,6 +28,10 @@ public class ManageLogFile {
             return null; // Failed to read the log file
         }
     }
+    public static boolean write_to_log(String command, Integer fishID, Integer fishType, Integer clock){
+        return write_to_log(command, fishID, fishType, null, null, clock, null);
+    }
+
     public static boolean write_to_log(String command, Integer fishID, Integer fishType, Integer genesisPondID, Integer pondID, Integer clock) {
         return write_to_log(command, fishID, fishType, genesisPondID ,pondID, clock, null); // Call the main function with default msg
     }
@@ -38,7 +42,7 @@ public class ManageLogFile {
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
             // Construct the log message
-            String logMessage = String.format("%s, %d, %d, %d, %d, %d", command, fishID, fishType, genesisPondID, pondID, clock);
+            String logMessage = String.format("%s, %d, %d, %d, %d, %d, %s", command, fishID, fishType, genesisPondID, pondID, clock, msg);
 
             bufferedWriter.write(logMessage);
             bufferedWriter.close();
@@ -87,13 +91,19 @@ public class ManageLogFile {
             if (command.equals("move")) {
 //                Communicate.move(fishID, fishType, genesisPondID, pondID, newClock);
                System.out.println("Fish moved");
-            } else if (command.equals("ack")) {
+            }
+            else if (command.equals("ack")) {
                 assert msg != null;
                 if (msg.equals("acpt")) {
                     Database.add_fish_toDB(fishID, fishType, pondID);
 //                    System.out.println("Fish added to the database");
-
                 }
+            }
+            else if (command.equals("add")) {
+                Database.add_fish_toDB(fishID, fishType, pondID);
+            }
+            else if (command.equals("remove")) {
+                Database.remove_fish_fromDB(fishID);
             }
         }
         ManageLogFile.clear_log();

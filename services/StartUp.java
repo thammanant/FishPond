@@ -1,4 +1,5 @@
 package services;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,6 +20,9 @@ public class StartUp {
     public static Integer clock = 0;
     public StartUp(Integer pondID) {
         this.pondID = pondID;
+        new File("fish.json");
+        new File("backup.txt");
+        new File("log.txt");
     }
 
     public void start() {
@@ -26,6 +30,18 @@ public class StartUp {
         System.out.println("Starting server" );
         Thread serverThread = new Thread(() -> MulticastServer.run_server(portNumber));
         serverThread.start();
+        // new thread that will call backup every 5 minutes
+        Thread backupThread = new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(10000);
+                    Backup.backup();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        backupThread.start();
         Backup.recover();
     }
 
