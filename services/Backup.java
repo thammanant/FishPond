@@ -22,8 +22,12 @@ public class Backup {
 
     public static void recover() {
         try {
-            if(new File(backupFile).exists())
+            // open the backup file
+            File file = new File(backupFile);
+            // check if the backup file is empty
+            if(file.length() != 0)
             {
+                System.out.println("Recovering from backup file");
                 // write the backup file to the fish database(fish.json)
                 FileWriter fileWriter = new FileWriter("fish.json");
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -35,16 +39,23 @@ public class Backup {
                 while ((line = bufferedReader.readLine()) != null) {
                     backup.append(line).append("\n");
                 }
-                String[] backupParts = backup.toString().split(",");
+                String[] backupParts = backup.toString().split("],");
+                // add ] to the first element
+                backupParts[0] += "]";
                 // write from the first continuously until the second last element
                 for (int i = 0; i < backupParts.length - 1; i++) {
+                    System.out.println(backupParts[i]);
                     bufferedWriter.write(backupParts[i]);
                 }
                 bufferedReader.close();
+                bufferedWriter.close();
 
-                // redo the tasks in the log file
-                ManageLogFile.redo_task(Integer.parseInt(backupParts[backupParts.length - 1]));
+                // get the last element
+                String lastPart = backupParts[backupParts.length - 1];
+                ManageLogFile.redo_task(Integer.parseInt(lastPart.strip()));
+
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }

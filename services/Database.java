@@ -12,6 +12,10 @@ public class Database {
     private static final String path = "fish.json";
 
     public static void add_fish_toDB(int fishid, int fishType, int genesisPondID) {
+        // if the fish already exists in the database, return
+        if (check_fish_id(fishid)) {
+            return;
+        }
         JSONArray fishList = read_fish_fromDB();
         JSONObject obj = new JSONObject();
         obj.put("fishid", String.valueOf(fishid));
