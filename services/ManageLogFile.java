@@ -4,6 +4,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.*;
+import java.util.Objects;
 
 public class ManageLogFile {
     private static final String logFile = "log.txt";
@@ -59,13 +60,61 @@ public class ManageLogFile {
         }
     }
 
-    public static void redo_task(){
-        // TODO: Implement the redo task, use binary search to find the redo position
+    public static void redo_task(Integer clock){
+        // Read the log file
+        String log = read_log();
+        if (log == null) {
+            return;
+        }
+
+        // Split the log file into individual log entries
+        String[] logEntries = log.split("\n");
+
+        // Use binary search to go through the log entries
+        Integer left = 0;
+        Integer right = logEntries.length - 1;
+        Integer index = binary_search(left, right, clock);
+
+        // redo the tasks from the index
+        for (int i = index; i < logEntries.length; i++) {
+            String[] logEntry = logEntries[i].split(", ");
+            String command = logEntry[0];
+            Integer fishID = Integer.parseInt(logEntry[1]);
+            Integer fishType = Integer.parseInt(logEntry[2]);
+            Integer genesisPondID = Integer.parseInt(logEntry[3]);
+            Integer pondID = Integer.parseInt(logEntry[4]);
+            Integer newClock = Integer.parseInt(logEntry[5]);
+            String msg = logEntry.length == 7 ? logEntry[6] : null;
+
+            if (command.equals("move")) {
+                Communicate.move(fishID, fishType, genesisPondID, pondID, newClock);
+            } else if (command.equals("ack")) {
+                assert msg != null;
+                if (msg.equals("acpt")) {
+                    Database.add_fish_toDB(fishID, fishType, pondID);
+                }
+            }
+        }
+        ManageLogFile.clear_log();
     }
 
 
     private static Integer binary_search(Integer left, Integer right, Integer target) {
-        // TODO: Implement the binary search algorithm
-        return null;
+        if (left > right) {
+            return -1;
+        }
+
+        int mid = left + (right - left) / 2;
+        String[] logEntries = Objects.requireNonNull(read_log()).split("\n");
+        String[] logEntry = logEntries[mid].split(", ");
+        Integer clock = Integer.parseInt(logEntry[5]);
+
+        if (clock.equals(target)) {
+            return mid;
+        } else if (clock < target) {
+            return binary_search(mid + 1, right, target);
+        } else {
+            return binary_search(left, mid - 1, target);
+        }
     }
 }
