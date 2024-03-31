@@ -44,7 +44,6 @@ public class Database {
             JSONParser jsonParser = new JSONParser();
             return (JSONArray) jsonParser.parse(reader);
         } catch (IOException | ParseException e) {
-            e.printStackTrace();
             // Return an empty array in case of an error
             return new JSONArray();
         }

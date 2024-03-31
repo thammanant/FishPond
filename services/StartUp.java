@@ -158,21 +158,25 @@ public class StartUp {
         return portNumber;
     }
 
-    public static void createIfNotExists(String fileName) {
-        File file = new File(fileName);
+    public static void createIfNotExists(String filename) {
+        File file = new File(filename);
+        // Check if the file doesn't exist
         if (!file.exists()) {
             try {
-                if (file.createNewFile()) {
-                    System.out.println("File created: " + file.getName());
-                } else {
-                    System.out.println("Failed to create the file: " + file.getName());
-                }
-            } catch (IOException e) {
-                System.out.println("An error occurred while creating the file: " + file.getName());
+                // Create the file
+                file.createNewFile();
+                System.out.println(filename + " created.");
+            } catch (Exception e) {
+                // Handle file creation error (optional)
                 e.printStackTrace();
             }
         } else {
-            System.out.println("File already exists: " + file.getName());
+            // Check if the file is empty (length is 0 bytes)
+            if (file.length() == 0) {
+                System.out.println(filename + " already exists but empty.");
+            } else {
+                System.out.println(filename + " already exists.");
+            }
         }
     }
 }
