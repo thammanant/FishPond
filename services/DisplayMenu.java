@@ -28,7 +28,7 @@ public class DisplayMenu {
         System.out.print("Please select fish type: \n");
         System.out.println("Type 1)\n");
         BubbleFish bubbleFish = new BubbleFish(0, 0, 0);
-        FishAnimation.bubbleFish();
+        FishAnimation.bubble_fish();
         System.out.println("Type 2)\n");
         Shark shark = new Shark(0, 0, 0);
         FishAnimation.shark();
@@ -37,10 +37,10 @@ public class DisplayMenu {
         FishAnimation.seahorse();
         System.out.println("Type 4)\n");
         TriangleFish triangleFish = new TriangleFish(0, 0, 0);
-        FishAnimation.triangleFish();
+        FishAnimation.triangle_fish();
         System.out.println("Type 5)\n");
         PufferFish pufferFish = new PufferFish(0, 0, 0);
-        FishAnimation.pufflefish();
+        FishAnimation.puffle_fish();
         Scanner input = new Scanner(System.in);
         System.out.print("Enter fish type: ");
         String userChoice = input.nextLine();
@@ -48,7 +48,7 @@ public class DisplayMenu {
         switch(userChoice){
             case "1":
                 System.out.println("You have selected bubble fish");
-                FishAnimation.bubbleFish();
+                FishAnimation.bubble_fish();
                 bubbleFish.create(this.pondID);
                 break;
             case "2":
@@ -58,7 +58,7 @@ public class DisplayMenu {
                 break;
             case "3":
                 System.out.println("You have selected triangle fish");
-                FishAnimation.triangleFish();
+                FishAnimation.triangle_fish();
                 triangleFish.create(this.pondID);
                 break;
             case "4":
@@ -68,7 +68,7 @@ public class DisplayMenu {
                 break;
             case "5":
                 System.out.println("You have selected pufflefish");
-                FishAnimation.pufflefish();
+                FishAnimation.puffle_fish();
                 pufferFish.create(this.pondID);
                 break;
             case "exit":

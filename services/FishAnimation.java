@@ -1,7 +1,7 @@
 package services;
 
 public class FishAnimation {
-    public static void bubbleFish(){
+    public static void bubble_fish(){
         
         System.out.println("               O  o");
         System.out.println("          _\\_   o");
@@ -21,7 +21,7 @@ public class FishAnimation {
         System.out.println("\n");
     }
 
-    public static void triangleFish(){
+    public static void triangle_fish(){
         
         System.out.println("     |\\    o");
         System.out.println("    |  \\    o");
@@ -46,7 +46,7 @@ public class FishAnimation {
         System.out.println("\n");
     }
 
-    public static void pufflefish(){
+    public static void puffle_fish(){
         
         System.out.println("     .");
         System.out.println("                          A       ;");
