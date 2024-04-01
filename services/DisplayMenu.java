@@ -6,7 +6,7 @@ import fishes.*;
 
 public class DisplayMenu {
 
-    private int pondID;
+    private final int pondID;
 
     public DisplayMenu(int pondID) {
         this.pondID = pondID;
@@ -27,19 +27,14 @@ public class DisplayMenu {
     public void add_fish_menu() {
         System.out.print("Please select fish type: \n");
         System.out.println("Type 1)\n");
-        BubbleFish bubbleFish = new BubbleFish(0, 0, 0);
         FishAnimation.bubble_fish();
         System.out.println("Type 2)\n");
-        Shark shark = new Shark(0, 0, 0);
         FishAnimation.shark();
         System.out.println("Type 3)\n");
-        Seahorse seahorse = new Seahorse(0, 0, 0);
         FishAnimation.seahorse();
         System.out.println("Type 4)\n");
-        TriangleFish triangleFish = new TriangleFish(0, 0, 0);
         FishAnimation.triangle_fish();
         System.out.println("Type 5)\n");
-        PufferFish pufferFish = new PufferFish(0, 0, 0);
         FishAnimation.puffle_fish();
         Scanner input = new Scanner(System.in);
         System.out.print("Enter fish type: ");
@@ -48,26 +43,31 @@ public class DisplayMenu {
         switch(userChoice){
             case "1":
                 System.out.println("You have selected bubble fish");
+                BubbleFish bubbleFish = new BubbleFish(0, 0, 0);
                 FishAnimation.bubble_fish();
                 bubbleFish.create(this.pondID);
                 break;
             case "2":
                 System.out.println("You have selected shark");
+                Shark shark = new Shark(0, 0, 0);
                 FishAnimation.shark();
                 shark.create(this.pondID);
                 break;
             case "3":
                 System.out.println("You have selected triangle fish");
+                TriangleFish triangleFish = new TriangleFish(0, 0, 0);
                 FishAnimation.triangle_fish();
                 triangleFish.create(this.pondID);
                 break;
             case "4":
                 System.out.println("You have selected seahorse");
+                Seahorse seahorse = new Seahorse(0, 0, 0);
                 FishAnimation.seahorse();
                 seahorse.create(this.pondID);
                 break;
             case "5":
                 System.out.println("You have selected pufflefish");
+                PufferFish pufferFish = new PufferFish(0, 0, 0);
                 FishAnimation.puffle_fish();
                 pufferFish.create(this.pondID);
                 break;

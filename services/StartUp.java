@@ -8,9 +8,6 @@ public class StartUp {
     private static Integer pondID;
     private static final Integer portNumber = 12345;
 
-    
-
-    public static Integer clock = 0;
     public StartUp(Integer pondID) {
         StartUp.pondID = pondID;
         createIfNotExists("fish.json");
@@ -27,7 +24,7 @@ public class StartUp {
         Thread backupThread = new Thread(() -> {
             while (true) {
                 try {
-                    Thread.sleep(10000);
+                    Thread.sleep(300000);
                     Backup.backup();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
