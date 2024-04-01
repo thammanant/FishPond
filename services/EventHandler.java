@@ -198,19 +198,19 @@ public class EventHandler {
 
                 switch (fishType) {
                     case 1:
-                        FishAnimation.bubbleFish();
+                        FishAnimation.bubble_fish();
                         break;
                     case 2:
                         FishAnimation.shark();
                         break;
                     case 3:
-                        FishAnimation.triangleFish();
+                        FishAnimation.triangle_fish();
                         break;
                     case 4:
                         FishAnimation.seahorse();
                         break;
                     case 5:
-                        FishAnimation.pufflefish();
+                        FishAnimation.puffle_fish();
                         break;
                 }
 

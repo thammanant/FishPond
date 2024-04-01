@@ -35,6 +35,8 @@ public class Database {
     }
 
 
+   
+
 
     public static JSONArray read_fish_fromDB() {
         try (FileReader reader = new FileReader(path)) {
@@ -63,6 +65,8 @@ public class Database {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        System.out.println("Fish id: " + fishid + " removed");
     }
 
     public static boolean check_fish_id(int fishid) {
