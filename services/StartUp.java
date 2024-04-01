@@ -146,8 +146,12 @@ public class StartUp {
         return clock;
     }
 
-    public static Integer getPondID() {
+    public static Integer get_pond_ID() {
         return pondID;
+    }
+
+    public static Integer get_port_number(){
+        return portNumber;
     }
 
     public static Integer getPortNumber() {

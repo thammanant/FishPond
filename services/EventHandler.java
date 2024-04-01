@@ -1,5 +1,6 @@
 package services;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +16,9 @@ import java.lang.management.RuntimeMXBean;
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ThreadMXBean;
 import java.lang.management.ClassLoadingMXBean;
+
+import static services.StartUp.get_pond_ID;
+import static services.StartUp.get_port_number;
 
 public class EventHandler {
 
@@ -66,6 +70,12 @@ public class EventHandler {
                     log
             );
             Clock.stop_clock();
+            MulticastClient client = new MulticastClient(get_port_number());
+            try {
+                client.send_multicast_message("Failed, " + get_pond_ID());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -162,7 +172,6 @@ public class EventHandler {
                 int fishType = Integer.parseInt((String) fish.get("fishType"));
                 int fishid = Integer.parseInt((String) fish.get("fishid"));
                 String fishTypeString = null;
-                String fishGallery = null;
 
                 switch (fishType) {
                     case 1:
@@ -221,8 +230,8 @@ public class EventHandler {
                             Port Number: %d
                             Multicast Subscription Group: %s
                             """,
-                    StartUp.getPondID(),
-                    StartUp.getPortNumber(),
+                    get_pond_ID(),
+                    get_port_number(),
                     MulticastServer.get_multi_address()
                     );
             System.out.println();
