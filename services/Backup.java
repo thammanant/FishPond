@@ -16,8 +16,9 @@ public class Backup {
         } else {
             System.out.println("System is not running");
             System.out.println("Restarting the system");
-//            Pond pond = new Pond(5);
-//            pond.start();
+            clock = 0;
+            Pond pond = new Pond(5);
+            pond.start();
         }
         clock+=1;
     }

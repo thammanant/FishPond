@@ -13,13 +13,13 @@ import java.util.Scanner;
 
 public class StartUp {
     private static Integer pondID;
-    private static Integer portNumber = 12345;
+    private static final Integer portNumber = 12345;
 
     private static boolean messageReceived = false;
 
     public static Integer clock = 0;
     public StartUp(Integer pondID) {
-        this.pondID = pondID;
+        StartUp.pondID = pondID;
         createIfNotExists("fish.json");
         createIfNotExists("backup.txt");
         createIfNotExists("log.txt");
@@ -99,10 +99,6 @@ public class StartUp {
                 request[1].matches("[0-9]+") && request[2].matches("[0-9]+") &&
                 Integer.parseInt(request[2]) == pondID;
     }
-
-
-
-
 
     public boolean performTask() {
         //TODO: Implement task

@@ -65,6 +65,7 @@ public class EventHandler {
                     userAction,
                     log
             );
+            Clock.stop_clock();
         }
     }
 
@@ -192,7 +193,7 @@ public class EventHandler {
                 );
 
                 System.out.printf("""
-                        Fish Gallery:                    
+                        Fish Gallery:
                         """
                 );
 
