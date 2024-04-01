@@ -1,9 +1,26 @@
 package services;
 
+import java.awt.*;
 import java.io.*;
 
 public class Backup {
-    public static final String backupFile = "backup.txt";
+    private static final String backupFile = "backup.txt";
+    private static Integer clock = 0;
+
+    // This method is called every 1 second to make sure that the main program is still running
+    public static void signal(int currentClock) {
+        if(currentClock > clock){
+            System.out.println("clock from backup: "+clock);
+            System.out.println("clock from main: "+currentClock);
+            System.out.println("System is still running");
+        } else {
+            System.out.println("System is not running");
+            System.out.println("Restarting the system");
+//            Pond pond = new Pond(5);
+//            pond.start();
+        }
+        clock+=1;
+    }
 
     public static void backup() {
         try {

@@ -19,6 +19,18 @@ public class Pond {
         StartUp startUp = new StartUp(this.pondID);
         startUp.start();
         Clock.start_clock();
+        // new thread that will sent signal to backup every 1 second
+        Thread signalThread = new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(1000);
+                    Backup.signal(Clock.get_current_clock());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        signalThread.start();
         Scanner ansForRequest = new Scanner(System.in);
         Scanner input = new Scanner(System.in);
         Scanner removeId = new Scanner(System.in);
