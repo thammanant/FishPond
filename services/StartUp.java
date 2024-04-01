@@ -1,23 +1,18 @@
 package services;
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.lang.InterruptedException;
 
 
 
 public class StartUp {
     private static Integer pondID;
-    private static Integer portNumber = 12345;
+    private static final Integer portNumber = 12345;
 
     
 
     public static Integer clock = 0;
     public StartUp(Integer pondID) {
-        this.pondID = pondID;
+        StartUp.pondID = pondID;
         createIfNotExists("fish.json");
         createIfNotExists("backup.txt");
         createIfNotExists("log.txt");
@@ -43,27 +38,11 @@ public class StartUp {
         Backup.recover();
     }
 
-    
-
-    public static void writeClockFile(int content) {
-        try {
-            Path filePath = Paths.get("clock.txt");
-            // Write the updated content to the file
-            Files.write(filePath, String.valueOf(content).getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static Integer getCurrentClock() {
-        return clock;
-    }
-
-    public static Integer getPondID() {
+    public static Integer get_pond_ID() {
         return pondID;
     }
 
-    public static Integer getPortNumber() {
+    public static Integer get_port_number(){
         return portNumber;
     }
 

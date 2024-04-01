@@ -5,8 +5,10 @@ import java.util.TimerTask;
 public class Clock {
     public static Integer clock = 0;
 
+    private static Timer timer;
+
     public static void start_clock() {
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -18,5 +20,13 @@ public class Clock {
 
     public static Integer get_current_clock() {
         return clock;
+    }
+
+    //stop running clock
+    public static void stop_clock() {
+        if (timer != null) {
+            timer.cancel();
+            System.out.println("Clock stopped");
+        }
     }
 }
