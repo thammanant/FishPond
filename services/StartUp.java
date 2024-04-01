@@ -1,10 +1,5 @@
 package services;
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.lang.InterruptedException;
 
 
@@ -43,31 +38,11 @@ public class StartUp {
         Backup.recover();
     }
 
-    
-
-    public static void writeClockFile(int content) {
-        try {
-            Path filePath = Paths.get("clock.txt");
-            // Write the updated content to the file
-            Files.write(filePath, String.valueOf(content).getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static Integer getCurrentClock() {
-        return clock;
-    }
-
     public static Integer get_pond_ID() {
         return pondID;
     }
 
     public static Integer get_port_number(){
-        return portNumber;
-    }
-
-    public static Integer getPortNumber() {
         return portNumber;
     }
 
