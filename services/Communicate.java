@@ -74,7 +74,7 @@ public class Communicate {
                         System.out.println("Fish already added");
                     }
                     else{
-                        Database.add_fish_from_other_pond(fishID, fishType, genesisPondID);
+                        Database.add_fish_toDB(fishID, fishType, genesisPondID);
                         System.out.println("Fish added");
                         client.send_multicast_message("ack," + fishID + "," + fishType + "," + genesisPondID + "," + pondID + "," + status + "\n");
                         System.out.println("Ack sent");

@@ -7,7 +7,7 @@ import services.ManageLogFile;
 import java.util.Random;
 
 
-public abstract class Fish {
+public abstract class Fish{
 
     int x;
     int y;
@@ -18,7 +18,7 @@ public abstract class Fish {
     String imageRight;
 
 
-    abstract void draw();
+    
 
     public void create(int pondID){
         Random random = new Random();
@@ -26,7 +26,6 @@ public abstract class Fish {
         while (Database.check_fish_id(this.id)) {
             this.id = random.nextInt(100);
         }
-        ManageLogFile.write_to_log("add", this.id, this.type, pondID, Clock.get_current_clock());
         Database.add_fish_toDB(this.id, this.type,pondID);
     }
 

@@ -30,13 +30,12 @@ public class Database {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        ManageLogFile.write_to_log("add", fishid, fishType, genesisPondID, Clock.get_current_clock());
         System.out.println("JSON file created: " + obj);
     }
 
-    public static void add_fish_from_other_pond(int fishID, int fishType, int genesisPondID){
-        ManageLogFile.write_to_log("add", fishID, fishType, genesisPondID, Clock.get_current_clock());
-        Database.add_fish_toDB(fishID, fishType, genesisPondID);
-    }
+
+   
 
 
     public static JSONArray read_fish_fromDB() {
@@ -66,6 +65,8 @@ public class Database {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        System.out.println("Fish id: " + fishid + " removed");
     }
 
     public static boolean check_fish_id(int fishid) {
