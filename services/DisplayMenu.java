@@ -76,7 +76,6 @@ public class DisplayMenu {
                 break;
             default:
                 System.out.println("Invalid input, please type number between 1-5");
-                return;
         }
 
     }

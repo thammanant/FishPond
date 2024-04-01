@@ -12,6 +12,10 @@ public class Database {
     private static final String path = "fish.json";
 
     public static void add_fish_toDB(int fishid, int fishType, int genesisPondID) {
+        // if the fish already exists in the database, return
+        if (check_fish_id(fishid)) {
+            return;
+        }
         JSONArray fishList = read_fish_fromDB();
         JSONObject obj = new JSONObject();
         obj.put("fishid", String.valueOf(fishid));
@@ -26,12 +30,10 @@ public class Database {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        ManageLogFile.write_to_log("add", fishid, fishType, genesisPondID, Clock.get_current_clock());
         System.out.println("JSON file created: " + obj);
     }
 
-    public static void add_fish_from_other_pond(int fishID, int fishType, int genesisPondID){
-        Database.add_fish_toDB(fishID, fishType, genesisPondID);
-    }
 
 
     public static JSONArray read_fish_fromDB() {
@@ -39,7 +41,6 @@ public class Database {
             JSONParser jsonParser = new JSONParser();
             return (JSONArray) jsonParser.parse(reader);
         } catch (IOException | ParseException e) {
-            e.printStackTrace();
             // Return an empty array in case of an error
             return new JSONArray();
         }

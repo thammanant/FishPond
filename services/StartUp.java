@@ -1,4 +1,5 @@
 package services;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -8,7 +9,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.lang.InterruptedException;
 import java.util.Scanner;
-import sun.misc.Signal;
 
 
 public class StartUp {
@@ -20,6 +20,9 @@ public class StartUp {
     public static Integer clock = 0;
     public StartUp(Integer pondID) {
         this.pondID = pondID;
+        createIfNotExists("fish.json");
+        createIfNotExists("backup.txt");
+        createIfNotExists("log.txt");
     }
 
     public void start() {
@@ -27,7 +30,19 @@ public class StartUp {
         System.out.println("Starting server" );
         Thread serverThread = new Thread(() -> MulticastServer.run_server(portNumber));
         serverThread.start();
-        
+        // new thread that will call backup every 5 minutes
+        Thread backupThread = new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(10000);
+                    Backup.backup();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        backupThread.start();
+        Backup.recover();
     }
 
     private static void handleReceivedMessages(Scanner ansForRequest) {
@@ -141,5 +156,27 @@ public class StartUp {
 
     public static Integer getPortNumber() {
         return portNumber;
+    }
+
+    public static void createIfNotExists(String filename) {
+        File file = new File(filename);
+        // Check if the file doesn't exist
+        if (!file.exists()) {
+            try {
+                // Create the file
+                file.createNewFile();
+                System.out.println(filename + " created.");
+            } catch (Exception e) {
+                // Handle file creation error (optional)
+                e.printStackTrace();
+            }
+        } else {
+            // Check if the file is empty (length is 0 bytes)
+            if (file.length() == 0) {
+                System.out.println(filename + " already exists but empty.");
+            } else {
+                System.out.println(filename + " already exists.");
+            }
+        }
     }
 }
