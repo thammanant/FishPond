@@ -1,9 +1,5 @@
 package fishes;
 
-import services.Database;
-
-import java.util.Random;
-
 public class Seahorse extends Fish{
 
         public Seahorse(int x, int y, int id) {
@@ -15,18 +11,6 @@ public class Seahorse extends Fish{
             this.imageRight = "";
         }
 
-        @Override
-        public void draw() {
-            System.out.println("     \\/)/)");
-            System.out.println("    _'  oo(_.-.");
-            System.out.println("  /'.     .---'");
-            System.out.println("/'-./    (");
-            System.out.println(")     ; __\\");
-            System.out.println("\\_.'\\ : __|");
-            System.out.println("     )  _/");
-            System.out.println("    (  (,.");
-            System.out.println("     '-.-'");
-            System.out.println("\n");
-        }
+       
 
 }

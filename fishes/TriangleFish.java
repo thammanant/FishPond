@@ -1,8 +1,5 @@
 package fishes;
 
-import services.Database;
-
-import java.util.Random;
 
 public class TriangleFish extends Fish{
 
@@ -15,16 +12,6 @@ public class TriangleFish extends Fish{
             this.imageRight = "";
         }
 
-        @Override
-        public void draw() {
-            System.out.println("     |\\    o");
-            System.out.println("    |  \\    o");
-            System.out.println("|\\ /    .\\ o");
-            System.out.println("| |       (");
-            System.out.println("|/ \\     /");
-            System.out.println("    |  /");
-            System.out.println("     |/");
-            System.out.println("\n");
-        }
+        
 
 }

@@ -7,7 +7,7 @@ import services.ManageLogFile;
 import java.util.Random;
 
 
-public abstract class Fish {
+public abstract class Fish{
 
     int x;
     int y;
@@ -18,7 +18,7 @@ public abstract class Fish {
     String imageRight;
 
 
-    abstract void draw();
+    
 
     public void create(int pondID){
         Random random = new Random();
